@@ -10,20 +10,20 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.waka.pandoradca.Pandoradca;
+import com.waka.pandoradca.Scenes.Hud;
 
 public class PlayScreen implements Screen {
 
     private Pandoradca game;
     private OrthographicCamera gameCamera;
     private Viewport gamePort;
-    Texture texture;
-
+    private Hud hud;
 
     public PlayScreen(Pandoradca game) {
         this.game = game;
-        texture = new Texture("badlogic.jpg");
         gameCamera = new OrthographicCamera();
         gamePort = new FitViewport(Pandoradca.V_WIDTH, Pandoradca.V_HEIGHT, gameCamera);
+        hud = new Hud(game.batch);
     }
 
     @Override
@@ -35,10 +35,9 @@ public class PlayScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.batch.setProjectionMatrix(gameCamera.combined);
-        game.batch.begin();
-        game.batch.draw(texture, 0, 0);
-        game.batch.end();
+
+        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
     }
 
     @Override
