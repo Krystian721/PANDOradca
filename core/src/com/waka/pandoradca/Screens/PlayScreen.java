@@ -51,7 +51,7 @@ public class PlayScreen implements Screen {
     private Panda player;
 
 
-    public PlayScreen(Pandoradca game) {
+    public PlayScreen(final Pandoradca game) {
         atlas = new TextureAtlas("Panda.pack");
 
         this.game = game;
