@@ -27,7 +27,7 @@ public class MainMenuScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Pandoradca.V_WIDTH_MENU, Pandoradca.V_HEIGHT_MENU);
 
-        background= new Texture("menu_bg.png");
+        background = new Texture("menu_bg.png");
         bt_play = new Texture("menu_play1.png");
         bt_exit = new Texture("menu_exit1.png");
         sb = new SpriteBatch();

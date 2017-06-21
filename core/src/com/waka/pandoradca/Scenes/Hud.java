@@ -1,5 +1,6 @@
 package com.waka.pandoradca.Scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -21,7 +22,16 @@ public class Hud implements Disposable{
     private Integer score;
     private Integer question;
     private Integer questionsPerLevel;
+    private Integer worldTimer;
+    private float timeCount;
 
+    public int getTime(){
+        return worldTimer;
+    }
+
+    public void resetTimer(){
+        worldTimer = 0;
+    }
 
     Label scoreLabel;
     Label questionsLabel;
@@ -29,6 +39,7 @@ public class Hud implements Disposable{
     public Hud(SpriteBatch sb){
         score = 0;
         question = 0;
+        worldTimer = 0;
         questionsPerLevel = 10;
 
         viewport = new FitViewport(Pandoradca.V_WIDTH, Pandoradca.V_HEIGHT, new OrthographicCamera());
@@ -47,6 +58,13 @@ public class Hud implements Disposable{
         stage.addActor(table);
     }
 
+    public void update(float dt){
+        timeCount += dt;
+        if (timeCount >= 1){
+            worldTimer++;
+            timeCount = 0;
+        }
+    }
     @Override
     public void dispose() {
         stage.dispose();

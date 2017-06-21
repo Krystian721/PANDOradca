@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -20,10 +21,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.StringBuilder;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sun.org.apache.xpath.internal.operations.String;
 import com.waka.pandoradca.Pandoradca;
 import com.waka.pandoradca.Scenes.Hud;
 import com.waka.pandoradca.Sprites.Panda;
@@ -32,8 +36,13 @@ import com.waka.pandoradca.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen {
 
+    static final int NOQUESTION = 0;
+    static final int QUESTION = 1;
+    private Texture questionBG;
+
     private Pandoradca game;
     private TextureAtlas atlas;
+    private int state;
 
     private OrthographicCamera gameCamera;
     private Viewport gamePort;
@@ -56,9 +65,13 @@ public class PlayScreen implements Screen {
 
         this.game = game;
 
+        questionBG = new Texture("1.jpg");
+
+        state = NOQUESTION;
+
         gameCamera = new OrthographicCamera();
 
-        gamePort = new FitViewport(Pandoradca.V_WIDTH / Pandoradca.PPM, Pandoradca.V_HEIGHT / Pandoradca.PPM, gameCamera);
+        gamePort = new FillViewport(Pandoradca.V_WIDTH / Pandoradca.PPM, Pandoradca.V_HEIGHT / Pandoradca.PPM, gameCamera);
 
         hud = new Hud(game.batch);
 
@@ -88,8 +101,9 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.UP)) && (player.b2body.getLinearVelocity().y == 0)) {
             player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
+        }
         if((Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2))
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
         if((Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2))
@@ -97,17 +111,46 @@ public class PlayScreen implements Screen {
 
     }
 
+    private int questionTimer;
+    private int showQ = 0;
+
     public void update(float delta) {
-        handleInput(delta);
+        switch (state) {
+            case NOQUESTION:
+                showQ = 0;
+                handleInput(delta);
 
-        gameCamera.position.x = player.b2body.getPosition().x;
+                gameCamera.position.x = player.b2body.getPosition().x;
 
-        world.step(1/60f, 6, 2);
+                world.step(1/60f, 6, 2);
 
-        player.update(delta);
+                hud.update(delta);
+                player.update(delta);
 
-        gameCamera.update();
-        renderer.setView(gameCamera);
+                gameCamera.update();
+                renderer.setView(gameCamera);
+
+                if ((questionTimer = hud.getTime()) > 3)
+                {
+                    state = QUESTION;
+                }
+                break;
+            case QUESTION:
+                boolean answer = false;
+                if (showQ == 0) {
+                    showQ++;
+                    SpriteBatch spriteBatch = new SpriteBatch();
+                    spriteBatch.begin();
+                    spriteBatch.draw(questionBG, 0, 0, Pandoradca.V_WIDTH_MENU, Pandoradca.V_HEIGHT_MENU);
+                    spriteBatch.end();
+                }
+                if (answer) {
+                    hud.resetTimer();
+                    questionBG.dispose();
+                    state = NOQUESTION;
+                }
+                break;
+        }
     }
 
 
@@ -115,20 +158,22 @@ public class PlayScreen implements Screen {
     public void render(float delta) {
         update(delta);
 
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (state == NOQUESTION) {
+            Gdx.gl.glClearColor(1, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
+            game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+            hud.stage.draw();
 
-        renderer.render();
+            renderer.render();
 
-        box2DDebugRenderer.render(world, gameCamera.combined);
+            box2DDebugRenderer.render(world, gameCamera.combined);
 
-        game.batch.setProjectionMatrix(gameCamera.combined);
-        game.batch.begin();
-        player.draw(game.batch);
-        game.batch.end();
+            game.batch.setProjectionMatrix(gameCamera.combined);
+            game.batch.begin();
+            player.draw(game.batch);
+            game.batch.end();
+        }
     }
 
     @Override
@@ -158,5 +203,11 @@ public class PlayScreen implements Screen {
         world.dispose();
         box2DDebugRenderer.dispose();
         hud.dispose();
+    }
+
+    public boolean handleQuestionInput(float dt){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+            return true;
+        else return false;
     }
 }
