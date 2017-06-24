@@ -1,11 +1,17 @@
 package com.waka.pandoradca.Tools;
 
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -14,6 +20,7 @@ import com.waka.pandoradca.Sprites.Food;
 import com.waka.pandoradca.Sprites.Spikes;
 
 public class B2WorldCreator {
+
     public B2WorldCreator(World world, TiledMap map) {
         BodyDef bodyDef = new BodyDef();
         PolygonShape polygonShape = new PolygonShape();
@@ -34,7 +41,7 @@ public class B2WorldCreator {
             body.createFixture(fixtureDef);
         }
 
-        //Tree
+            //Tree
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
 

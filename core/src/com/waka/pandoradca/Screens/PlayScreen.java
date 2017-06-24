@@ -3,31 +3,22 @@ package com.waka.pandoradca.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sun.org.apache.xpath.internal.operations.String;
 import com.waka.pandoradca.Pandoradca;
 import com.waka.pandoradca.Scenes.Hud;
 import com.waka.pandoradca.Sprites.Panda;
@@ -59,20 +50,19 @@ public class PlayScreen implements Screen {
 
     private Panda player;
 
+    private BitmapFont font;
+
 
     public PlayScreen(final Pandoradca game) {
         atlas = new TextureAtlas("Panda.pack");
 
         this.game = game;
 
-        questionBG = new Texture("1.jpg");
-
         state = NOQUESTION;
 
         gameCamera = new OrthographicCamera();
 
         gamePort = new FillViewport(Pandoradca.V_WIDTH / Pandoradca.PPM, Pandoradca.V_HEIGHT / Pandoradca.PPM, gameCamera);
-
         hud = new Hud(game.batch);
 
         mapLoader = new TmxMapLoader();
@@ -89,6 +79,10 @@ public class PlayScreen implements Screen {
         player = new Panda(world, this);
 
         world.setContactListener(new WorldContactListener());
+
+        font = new BitmapFont();
+        font.getData().setScale(.9f, .9f);
+        font.setColor(Color.RED);
     }
 
     public TextureAtlas getAtlas(){
@@ -112,9 +106,16 @@ public class PlayScreen implements Screen {
     }
 
     private int questionTimer;
+    private int questionNumber = 0;
+    private boolean answer;
     private int showQ = 0;
+    private SpriteBatch spriteBatch;
+    private String text;
+    private boolean fileExists;
+    private FileHandle file;
 
-    public void update(float delta) {
+
+    private void update(float delta) {
         switch (state) {
             case NOQUESTION:
                 showQ = 0;
@@ -129,27 +130,35 @@ public class PlayScreen implements Screen {
 
                 gameCamera.update();
                 renderer.setView(gameCamera);
-
-                if ((questionTimer = hud.getTime()) > 3)
+                if (((questionTimer = hud.getTime()) > 1) && questionNumber < 17)
                 {
                     state = QUESTION;
                 }
                 break;
             case QUESTION:
-                boolean answer = false;
                 if (showQ == 0) {
                     showQ++;
-                    SpriteBatch spriteBatch = new SpriteBatch();
-                    spriteBatch.begin();
-                    spriteBatch.draw(questionBG, 0, 0, Pandoradca.V_WIDTH_MENU, Pandoradca.V_HEIGHT_MENU);
-                    spriteBatch.end();
+                    answer = false;
+                    questionBG = new Texture("questions/module1/bg.jpg");
+                    spriteBatch = new SpriteBatch();
+                    questionNumber++;
+                    if (fileExists = Gdx.files.internal("questions/module1/"+questionNumber+".txt").exists()) {
+                        file = Gdx.files.internal("questions/module1/" + questionNumber + ".txt");
+                        text = file.readString();
+                    }
                 }
+                spriteBatch.begin();
+                spriteBatch.draw(questionBG, 0, 0, gamePort.getScreenWidth(), gamePort.getScreenHeight());
+                font.draw(spriteBatch, text, 50, 400);
+                spriteBatch.end();
+                answer = handleQuestionInput();
                 if (answer) {
                     hud.resetTimer();
                     questionBG.dispose();
                     state = NOQUESTION;
                 }
                 break;
+            default: break;
         }
     }
 
@@ -173,7 +182,13 @@ public class PlayScreen implements Screen {
             game.batch.begin();
             player.draw(game.batch);
             game.batch.end();
-        }
+        }/*
+        if (state == QUESTION)
+        {
+            if (showQ == 0) {
+
+            }
+        }*/
     }
 
     @Override
@@ -203,11 +218,10 @@ public class PlayScreen implements Screen {
         world.dispose();
         box2DDebugRenderer.dispose();
         hud.dispose();
+
     }
 
-    public boolean handleQuestionInput(float dt){
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
-            return true;
-        else return false;
+    private boolean handleQuestionInput(){
+        return (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE));
     }
 }

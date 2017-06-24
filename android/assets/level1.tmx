@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="2017.05.16" orientation="orthogonal" renderorder="right-down" width="400" height="26" tilewidth="10" tileheight="10" nextobjectid="67">
+<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="400" height="26" tilewidth="10" tileheight="10" nextobjectid="70">
  <tileset firstgid="1" name="Mobile - Eon the Dragon 3 png" tilewidth="10" tileheight="10" margin="4" tilecount="4697" columns="77">
   <image source="tiles.png" trans="ff00ff" width="776" height="623"/>
  </tileset>
@@ -50,6 +50,8 @@
   <object id="46" x="3510" y="220" width="30" height="10"/>
   <object id="47" x="3510" y="210" width="40" height="30"/>
   <object id="53" x="3610" y="220" width="410" height="40"/>
+  <object id="67" x="2160" y="220" width="600" height="40"/>
+  <object id="68" x="2150" y="220" width="10" height="40"/>
  </objectgroup>
  <objectgroup name="tree">
   <object id="54" x="2420" y="160" width="40" height="60"/>

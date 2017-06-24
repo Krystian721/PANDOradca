@@ -12,6 +12,8 @@ public class Pandoradca extends Game {
 	public static final int V_HEIGHT = 260;
 	public static final int V_WIDTH_MENU = 700;
 	public static final int V_HEIGHT_MENU = 500;
+	public static final int V_WIDTH_QUESTION = 800;
+	public static final int V_HEIGHT_QUESTION = 600;
 	public static final float PPM = 100;
 
 	public SpriteBatch batch;
