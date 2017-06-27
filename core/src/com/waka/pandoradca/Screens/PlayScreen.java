@@ -3,6 +3,9 @@ package com.waka.pandoradca.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -11,6 +14,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -23,7 +27,16 @@ import com.waka.pandoradca.Pandoradca;
 import com.waka.pandoradca.Scenes.Hud;
 import com.waka.pandoradca.Sprites.Panda;
 import com.waka.pandoradca.Tools.B2WorldCreator;
+import com.waka.pandoradca.Tools.FontFactory;
 import com.waka.pandoradca.Tools.WorldContactListener;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 
 public class PlayScreen implements Screen {
 
@@ -50,7 +63,13 @@ public class PlayScreen implements Screen {
 
     private Panda player;
 
-    private BitmapFont font;
+    //font
+    private Locale plLocale;
+    private StringBuilder stringBuilder;
+
+
+    public static final int maxQuestions = 17;
+    private String[] answerTable;
 
 
     public PlayScreen(final Pandoradca game) {
@@ -80,9 +99,12 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
-        font = new BitmapFont();
-        font.getData().setScale(.9f, .9f);
-        font.setColor(Color.RED);
+        //font.getData().setScale(.9f, .9f);
+        FontFactory.getInstance().initialize();
+        plLocale = new Locale("pl", "PL");
+        answerTable = new String[maxQuestions];
+
+        stringBuilder = new StringBuilder();
     }
 
     public TextureAtlas getAtlas(){
@@ -119,6 +141,7 @@ public class PlayScreen implements Screen {
         switch (state) {
             case NOQUESTION:
                 showQ = 0;
+                answerText = null;
                 handleInput(delta);
 
                 gameCamera.position.x = player.b2body.getPosition().x;
@@ -130,7 +153,7 @@ public class PlayScreen implements Screen {
 
                 gameCamera.update();
                 renderer.setView(gameCamera);
-                if (((questionTimer = hud.getTime()) > 1) && questionNumber < 17)
+                if (((questionTimer = hud.getTime()) > 1) && questionNumber < maxQuestions)
                 {
                     state = QUESTION;
                 }
@@ -144,12 +167,29 @@ public class PlayScreen implements Screen {
                     questionNumber++;
                     if (fileExists = Gdx.files.internal("questions/module1/"+questionNumber+".txt").exists()) {
                         file = Gdx.files.internal("questions/module1/" + questionNumber + ".txt");
-                        text = file.readString();
+                        try {
+                            BufferedReader in = new BufferedReader(
+                                    new InputStreamReader(
+                                            new FileInputStream("questions/module1/" + questionNumber + ".txt"), "windows-1250"
+                                    )
+                            );
+                            String string = "";
+                            while ((string = in.readLine()) != null) {
+                                stringBuilder.append(string + "\r\n");
+                            }
+                            text = stringBuilder.toString();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 spriteBatch.begin();
                 spriteBatch.draw(questionBG, 0, 0, gamePort.getScreenWidth(), gamePort.getScreenHeight());
-                font.draw(spriteBatch, text, 50, 400);
+                FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 50, 400.f);
                 spriteBatch.end();
                 answer = handleQuestionInput();
                 if (answer) {
@@ -182,7 +222,8 @@ public class PlayScreen implements Screen {
             game.batch.begin();
             player.draw(game.batch);
             game.batch.end();
-        }/*
+        }
+        /*
         if (state == QUESTION)
         {
             if (showQ == 0) {
@@ -218,10 +259,33 @@ public class PlayScreen implements Screen {
         world.dispose();
         box2DDebugRenderer.dispose();
         hud.dispose();
-
+        FontFactory.getInstance().dispose();
     }
+
+    private String answerText;
+    private boolean inputCheck;
 
     private boolean handleQuestionInput(){
-        return (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE));
+        if (Gdx.input.justTouched()) {
+            Gdx.input.getTextInput(new Input.TextInputListener() {
+
+                @Override
+                public void input(String text) {
+                    answerText = text.toLowerCase();
+                }
+
+                @Override
+                public void canceled() {
+                    inputCheck=false;
+                }
+            }, "Jaki to zawód?", "", "Tu wpisz odpowiedź!");
+        }
+        if (!(answerText==null)) {
+            answerTable[questionNumber-1]=answerText;
+            return true;
+        }
+        else
+            return false;
     }
 }
+
