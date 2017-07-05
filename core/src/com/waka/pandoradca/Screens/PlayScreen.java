@@ -3,18 +3,12 @@ package com.waka.pandoradca.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -29,7 +23,6 @@ import com.waka.pandoradca.Sprites.Panda;
 import com.waka.pandoradca.Tools.B2WorldCreator;
 import com.waka.pandoradca.Tools.FontFactory;
 import com.waka.pandoradca.Tools.WorldContactListener;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,12 +33,13 @@ import java.util.Locale;
 
 public class PlayScreen implements Screen {
 
-    static final int NOQUESTION = 0;
-    static final int QUESTION = 1;
+    private static final int NOQUESTION = 0;
+    private static final int QUESTION = 1;
     private Texture questionBG;
 
     private Pandoradca game;
     private TextureAtlas atlas;
+    private TextureAtlas atlasAnswerWindow;
     private int state;
 
     private OrthographicCamera gameCamera;
@@ -53,7 +47,6 @@ public class PlayScreen implements Screen {
     private Hud hud;
 
     //Tiled
-    private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
 
@@ -74,6 +67,7 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(final Pandoradca game) {
         atlas = new TextureAtlas("Panda.pack");
+        atlasAnswerWindow = new TextureAtlas("questions/answerWindow/ui-green.atlas");
 
         this.game = game;
 
@@ -84,7 +78,7 @@ public class PlayScreen implements Screen {
         gamePort = new FillViewport(Pandoradca.V_WIDTH / Pandoradca.PPM, Pandoradca.V_HEIGHT / Pandoradca.PPM, gameCamera);
         hud = new Hud(game.batch);
 
-        mapLoader = new TmxMapLoader();
+        TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load("level1.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Pandoradca.PPM);
 
@@ -99,7 +93,6 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
-        //font.getData().setScale(.9f, .9f);
         FontFactory.getInstance().initialize();
         plLocale = new Locale("pl", "PL");
         answerTable = new String[maxQuestions];
@@ -162,12 +155,13 @@ public class PlayScreen implements Screen {
                 if (showQ == 0) {
                     showQ++;
                     answer = false;
-                    questionBG = new Texture("questions/module1/bg.jpg");
+                    questionBG = new Texture("questions/module1/bg2.jpg");
                     spriteBatch = new SpriteBatch();
                     questionNumber++;
-                    if (fileExists = Gdx.files.internal("questions/module1/"+questionNumber+".txt").exists()) {
+                    if (fileExists = Gdx.files.internal("questions/module1/" + questionNumber + ".txt").exists()) {
                         file = Gdx.files.internal("questions/module1/" + questionNumber + ".txt");
                         try {
+                            stringBuilder.setLength(0);
                             BufferedReader in = new BufferedReader(
                                     new InputStreamReader(
                                             new FileInputStream("questions/module1/" + questionNumber + ".txt"), "windows-1250"
@@ -189,7 +183,7 @@ public class PlayScreen implements Screen {
                 }
                 spriteBatch.begin();
                 spriteBatch.draw(questionBG, 0, 0, gamePort.getScreenWidth(), gamePort.getScreenHeight());
-                FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 50, 400.f);
+                FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 60, 300.f);
                 spriteBatch.end();
                 answer = handleQuestionInput();
                 if (answer) {
@@ -267,6 +261,7 @@ public class PlayScreen implements Screen {
 
     private boolean handleQuestionInput(){
         if (Gdx.input.justTouched()) {
+
             Gdx.input.getTextInput(new Input.TextInputListener() {
 
                 @Override
@@ -279,6 +274,10 @@ public class PlayScreen implements Screen {
                     inputCheck=false;
                 }
             }, "Jaki to zawód?", "", "Tu wpisz odpowiedź!");
+
+
+
+
         }
         if (!(answerText==null)) {
             answerTable[questionNumber-1]=answerText;

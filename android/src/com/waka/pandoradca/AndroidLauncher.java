@@ -1,10 +1,8 @@
 package com.waka.pandoradca;
 
 import android.os.Bundle;
-
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.waka.pandoradca.Pandoradca;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
