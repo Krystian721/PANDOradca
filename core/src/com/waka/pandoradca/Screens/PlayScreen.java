@@ -15,12 +15,17 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.waka.pandoradca.Pandoradca;
 import com.waka.pandoradca.Scenes.Hud;
 import com.waka.pandoradca.Sprites.Panda;
 import com.waka.pandoradca.Tools.B2WorldCreator;
+import com.waka.pandoradca.Tools.DialogBox;
 import com.waka.pandoradca.Tools.FontFactory;
 import com.waka.pandoradca.Tools.WorldContactListener;
 import java.io.BufferedReader;
@@ -31,6 +36,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
+
 public class PlayScreen implements Screen {
 
     private static final int NOQUESTION = 0;
@@ -39,7 +45,6 @@ public class PlayScreen implements Screen {
 
     private Pandoradca game;
     private TextureAtlas atlas;
-    private TextureAtlas atlasAnswerWindow;
     private int state;
 
     private OrthographicCamera gameCamera;
@@ -63,11 +68,11 @@ public class PlayScreen implements Screen {
 
     public static final int maxQuestions = 17;
     private String[] answerTable;
+    private boolean hint = false;
 
 
     public PlayScreen(final Pandoradca game) {
         atlas = new TextureAtlas("Panda.pack");
-        atlasAnswerWindow = new TextureAtlas("questions/answerWindow/ui-green.atlas");
 
         this.game = game;
 
@@ -76,7 +81,6 @@ public class PlayScreen implements Screen {
         gameCamera = new OrthographicCamera();
 
         gamePort = new FillViewport(Pandoradca.V_WIDTH / Pandoradca.PPM, Pandoradca.V_HEIGHT / Pandoradca.PPM, gameCamera);
-        hud = new Hud(game.batch);
 
         TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load("level1.tmx");
@@ -98,6 +102,8 @@ public class PlayScreen implements Screen {
         answerTable = new String[maxQuestions];
 
         stringBuilder = new StringBuilder();
+
+        hud = new Hud(game.batch);
     }
 
     public TextureAtlas getAtlas(){
@@ -128,7 +134,7 @@ public class PlayScreen implements Screen {
     private String text;
     private boolean fileExists;
     private FileHandle file;
-
+    private String string;
 
     private void update(float delta) {
         switch (state) {
@@ -167,7 +173,7 @@ public class PlayScreen implements Screen {
                                             new FileInputStream("questions/module1/" + questionNumber + ".txt"), "windows-1250"
                                     )
                             );
-                            String string = "";
+                            string = "";
                             while ((string = in.readLine()) != null) {
                                 stringBuilder.append(string + "\r\n");
                             }
@@ -183,7 +189,8 @@ public class PlayScreen implements Screen {
                 }
                 spriteBatch.begin();
                 spriteBatch.draw(questionBG, 0, 0, gamePort.getScreenWidth(), gamePort.getScreenHeight());
-                FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 60, 300.f);
+                if (!hint)
+                    FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 60, 300.f);
                 spriteBatch.end();
                 answer = handleQuestionInput();
                 if (answer) {
@@ -197,6 +204,7 @@ public class PlayScreen implements Screen {
     }
 
 
+    private DialogBox answerDialog;
     @Override
     public void render(float delta) {
         update(delta);
@@ -206,7 +214,6 @@ public class PlayScreen implements Screen {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
             game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-            hud.stage.draw();
 
             renderer.render();
 
@@ -216,14 +223,17 @@ public class PlayScreen implements Screen {
             game.batch.begin();
             player.draw(game.batch);
             game.batch.end();
+
+            hud.stage.draw();
         }
-        /*
+
         if (state == QUESTION)
         {
-            if (showQ == 0) {
-
+            if (pressed) {
+                game.batch.setProjectionMatrix(answerDialog.stage.getCamera().combined);
+                answerDialog.stage.draw();
             }
-        }*/
+        }
     }
 
     @Override
@@ -257,34 +267,43 @@ public class PlayScreen implements Screen {
     }
 
     private String answerText;
-    private boolean inputCheck;
+    private boolean pressed;
 
-    private boolean handleQuestionInput(){
-        if (Gdx.input.justTouched()) {
-
-            Gdx.input.getTextInput(new Input.TextInputListener() {
-
-                @Override
-                public void input(String text) {
-                    answerText = text.toLowerCase();
-                }
-
-                @Override
-                public void canceled() {
-                    inputCheck=false;
-                }
-            }, "Jaki to zawód?", "", "Tu wpisz odpowiedź!");
-
-
-
-
+    private boolean handleQuestionInput() {
+        if (!pressed) {
+            if (Gdx.input.justTouched()) {
+                answerDialog = new DialogBox("", game.batch);
+                answerDialog.addLabel("Jaki to zawód?");
+                answerDialog.addTextBoxAndConfirmButton("Tu wpisz odpowiedź!", "OK");
+                answerDialog.addHintButton("PODPOWIEDŹ");
+                answerDialog.addCancelButton("ANULUJ");
+                answerDialog.dialogShow();
+                pressed = true;
+            }
+        } else if (answerDialog.cancelled)
+            pressed = false;
+        else if (answerDialog.hint) {
+            if (!hint)
+                FontFactory.getInstance().dispose();
+            pressed = false;
+            hint = true;
+            questionBG = new Texture("questions/module1/hint" + questionNumber + ".jpg");
+        } else if (answerDialog.noAnswer)
+            pressed = false;
+        if (pressed) {
+            if (answerDialog.checkAnswer) {
+                if ((!answerDialog.string.isEmpty())) {
+                    answerTable[questionNumber - 1] = answerText;
+                    pressed = false;
+                    return true;
+                } else
+                    return false;
+            }
         }
-        if (!(answerText==null)) {
-            answerTable[questionNumber-1]=answerText;
-            return true;
-        }
-        else
-            return false;
+        return false;
     }
 }
+
+
+
 

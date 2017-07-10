@@ -1,6 +1,5 @@
 package com.waka.pandoradca.Scenes;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,8 +11,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.waka.pandoradca.Pandoradca;
-
-import org.omg.CORBA.StringSeqHelper;
 
 public class Hud implements Disposable{
     public Stage stage;

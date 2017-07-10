@@ -28,7 +28,7 @@ public class MainMenuScreen implements Screen {
     private Texture bt_play;
     private Texture bt_exit;
     private Texture bt_score;
-    private  Rectangle play;
+    private Rectangle play;
 
     public MainMenuScreen(final Pandoradca gam) {
         game = gam;
