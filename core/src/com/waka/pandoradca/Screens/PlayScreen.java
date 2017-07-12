@@ -15,10 +15,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.waka.pandoradca.Pandoradca;
@@ -44,7 +40,6 @@ public class PlayScreen implements Screen {
     private Texture questionBG;
 
     private Pandoradca game;
-    private TextureAtlas atlas;
     private int state;
 
     private OrthographicCamera gameCamera;
@@ -72,8 +67,6 @@ public class PlayScreen implements Screen {
 
 
     public PlayScreen(final Pandoradca game) {
-        atlas = new TextureAtlas("Panda.pack");
-
         this.game = game;
 
         state = NOQUESTION;
@@ -93,7 +86,7 @@ public class PlayScreen implements Screen {
 
         new B2WorldCreator(world, map);
 
-        player = new Panda(world, this);
+        player = new Panda(world);
 
         world.setContactListener(new WorldContactListener());
 
@@ -104,10 +97,6 @@ public class PlayScreen implements Screen {
         stringBuilder = new StringBuilder();
 
         hud = new Hud(game.batch);
-    }
-
-    public TextureAtlas getAtlas(){
-        return atlas;
     }
 
     @Override
@@ -152,7 +141,7 @@ public class PlayScreen implements Screen {
 
                 gameCamera.update();
                 renderer.setView(gameCamera);
-                if (((questionTimer = hud.getTime()) > 1) && questionNumber < maxQuestions)
+                if (((questionTimer = hud.getTime()) > 30) && questionNumber < maxQuestions)
                 {
                     state = QUESTION;
                 }

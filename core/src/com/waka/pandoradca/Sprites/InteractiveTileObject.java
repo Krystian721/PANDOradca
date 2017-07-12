@@ -17,7 +17,6 @@ public abstract class InteractiveTileObject {
     protected TiledMapTile tile;
     protected Rectangle rectangle;
     protected Body body;
-
     protected Fixture fixture;
 
     public InteractiveTileObject(World world, TiledMap map, Rectangle rectangle) {

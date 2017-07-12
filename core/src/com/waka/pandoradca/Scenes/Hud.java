@@ -8,17 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.waka.pandoradca.Pandoradca;
 
 public class Hud implements Disposable{
     public Stage stage;
-    public Viewport viewport;
 
-    private Integer score;
-    private Integer question;
-    private Integer questionsPerLevel;
+    public Integer score;
+    public Integer question;
+    public Integer questionsPerLevel;
     private Integer worldTimer;
     private float timeCount;
 
@@ -30,24 +29,21 @@ public class Hud implements Disposable{
         worldTimer = 0;
     }
 
-    Label scoreLabel;
-    Label questionsLabel;
-
     public Hud(SpriteBatch sb){
         score = 0;
         question = 0;
         worldTimer = 0;
-        questionsPerLevel = 10;
+        questionsPerLevel = 17;
 
-        viewport = new FitViewport(Pandoradca.V_WIDTH, Pandoradca.V_HEIGHT, new OrthographicCamera());
+        Viewport viewport = new FillViewport(Pandoradca.V_WIDTH, Pandoradca.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
         Table table = new Table();
         table.top();
         table.setFillParent(true);
 
-        scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        questionsLabel = new Label(question.toString()+"/"+questionsPerLevel.toString(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        Label scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        Label questionsLabel = new Label(question.toString()+"/"+questionsPerLevel.toString(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(questionsLabel).expandX().padTop(10);
         table.add(scoreLabel).expandX().padTop(10);

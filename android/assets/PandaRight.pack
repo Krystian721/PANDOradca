@@ -1,0 +1,12 @@
+
+PandaRight.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+pandaRight
+  rotate: false
+  xy: 0, 0
+  size: 1024, 512
+  orig: 1024, 512
+  offset: 0, 0
+  index: -1
