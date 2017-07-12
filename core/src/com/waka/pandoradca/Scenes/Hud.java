@@ -13,13 +13,16 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.waka.pandoradca.Pandoradca;
 
 public class Hud implements Disposable{
-    public Stage stage;
-
-    public Integer score;
-    public Integer question;
-    public Integer questionsPerLevel;
+    private Stage stage;
+    private Integer score;
+    private Integer question;
+    private Integer questionsPerLevel;
     private Integer worldTimer;
     private float timeCount;
+
+    public Stage getStage(){
+        return stage;
+    }
 
     public int getTime(){
         return worldTimer;

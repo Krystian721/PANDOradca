@@ -17,8 +17,6 @@ import org.w3c.dom.css.Rect;
 import java.awt.Rectangle;
 
 public class MainMenuScreen implements Screen {
-
-
     final Pandoradca game;
 
     OrthographicCamera camera;
