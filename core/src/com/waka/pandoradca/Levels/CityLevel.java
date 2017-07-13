@@ -54,7 +54,7 @@ public class CityLevel {
         plLocale = new Locale("pl", "PL");
         answerTable = new String[maxQuestions];
         stringBuilder = new StringBuilder();
-        levelName = "CityMap.tmx";
+        levelName = "maps/City/CityMap.tmx";
         FontFactory.getInstance().initialize();
     }
 
@@ -120,7 +120,7 @@ public class CityLevel {
                 showQ = 0;
                 answerText = null;
                 screen.handleInput();
-                screen.getGameCamera().position.x = screen.getPlayer().b2body.getPosition().x;
+                screen.boundary(screen.getGameCamera(), screen, 40);
                 screen.getWorld().step(1 / 60f, 6, 2);
                 screen.getHud().update(deltaTime);
                 screen.getPlayer().update(deltaTime);

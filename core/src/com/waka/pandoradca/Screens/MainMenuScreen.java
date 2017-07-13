@@ -1,15 +1,11 @@
 package com.waka.pandoradca.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.waka.pandoradca.Pandoradca;
 
 import org.w3c.dom.css.Rect;
@@ -42,7 +38,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-
     }
 
     @Override
@@ -52,7 +47,6 @@ public class MainMenuScreen implements Screen {
 
         camera.update();
 
-
         sb.begin();
         sb.draw(background,0,0,Pandoradca.V_WIDTH_MENU,Pandoradca.V_HEIGHT_MENU);
         sb.draw(bt_play,(Pandoradca.V_WIDTH_MENU/4)-(bt_play.getWidth()/2),(Pandoradca.V_HEIGHT_MENU/2)+10);
@@ -60,13 +54,12 @@ public class MainMenuScreen implements Screen {
         sb.draw(bt_exit,(Pandoradca.V_WIDTH_MENU/4)-(bt_play.getWidth()/2),(Pandoradca.V_HEIGHT_MENU/2)-130);
         sb.end();
 
-
         int ox = (Pandoradca.V_WIDTH_MENU/4)-(bt_play.getWidth()/2);
 
         if (Gdx.input.getX() > ox && Gdx.input.getX()< ox+125 && Gdx.input.getY()>170 && Gdx.input.getY()<220) {
             System.out.println("Play");
             dispose();
-            game.setScreen(new PlayScreen(game));
+            game.setScreen(new PlayScreen(game, 1));
         }
         if (Gdx.input.getX() > ox && Gdx.input.getX()< ox+125 && Gdx.input.getY()>310 && Gdx.input.getY()<360) {
             System.out.println("Exit");
@@ -74,37 +67,29 @@ public class MainMenuScreen implements Screen {
             //Gdx.app.exit();
         }
         if (Gdx.input.getX() > ox && Gdx.input.getX()< ox+125 && Gdx.input.getY()>240 && Gdx.input.getY()<290) {
-
             System.out.println("score");
             dispose();
             //game.setScreen(new ModuleScreen(game));
         }
-
-
     }
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
     public void dispose() {
-
     }
 }

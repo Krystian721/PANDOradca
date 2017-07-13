@@ -12,14 +12,17 @@ public class ForestLevel {
         return levelName;
     }
 
-    public ForestLevel(PlayScreen screen){
+    public ForestLevel(PlayScreen screen, int level){
         this.screen = screen;
-        levelName = "ForestMap.tmx";
+        if (level == 1)
+            levelName = "maps/Forest1/ForestMap1.tmx";
+        if (level == 3)
+            levelName = "maps/Forest2/ForestMap2.tmx";
     }
 
     public void update(float deltaTime){
         screen.handleInput();
-        screen.getGameCamera().position.x = screen.getPlayer().b2body.getPosition().x;
+        screen.boundary(screen.getGameCamera(), screen, 40);
         screen.getWorld().step(1 / 60f, 6, 2);
         screen.getHud().update(deltaTime);
         screen.getPlayer().update(deltaTime);

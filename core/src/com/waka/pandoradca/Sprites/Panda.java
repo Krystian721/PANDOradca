@@ -27,8 +27,8 @@ public class Panda extends Sprite {
     private boolean runningRight;
 
     public Panda(World world) {
-        TextureAtlas atlasRight = new TextureAtlas("PandaRight.pack");
-        TextureAtlas atlasLeft = new TextureAtlas("PandaLeft.pack");
+        TextureAtlas atlasRight = new TextureAtlas("animations/PandaRight.pack");
+        TextureAtlas atlasLeft = new TextureAtlas("animations/PandaLeft.pack");
         this.world = world;
         currentState = State.STANDING;
         previousState = State.STANDING;
