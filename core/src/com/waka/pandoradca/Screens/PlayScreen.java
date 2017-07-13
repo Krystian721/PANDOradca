@@ -104,11 +104,11 @@ public class PlayScreen implements Screen {
         gamePort = new FillViewport(Pandoradca.V_WIDTH / Pandoradca.PPM, Pandoradca.V_HEIGHT / Pandoradca.PPM, gameCamera);
         TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load(mapName);
+        box2DDebugRenderer = new Box2DDebugRenderer();
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Pandoradca.PPM);
         properties = map.getProperties();
         gameCamera.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
         world = new World(new Vector2(0, -10), true);
-        box2DDebugRenderer = new Box2DDebugRenderer();
         new B2WorldCreator(world, map);
         player = new Panda(world);
         world.setContactListener(new WorldContactListener());

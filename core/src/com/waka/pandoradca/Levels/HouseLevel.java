@@ -31,8 +31,8 @@ public class HouseLevel {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         screen.getGame().batch.setProjectionMatrix(screen.getHud().getStage().getCamera().combined);
-        screen.getRenderer().render();
         screen.getBox2DDebugRenderer().render(screen.getWorld(), screen.getGameCamera().combined);
+        screen.getRenderer().render();
         screen.getGame().batch.setProjectionMatrix(screen.getGameCamera().combined);
         screen.getGame().batch.begin();
         screen.getPlayer().draw(screen.getGame().batch);
