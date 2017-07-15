@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -40,11 +39,6 @@ public class PlayScreen implements Screen {
     private HouseLevel level2;
     private ForestLevel level3;
     private CityLevel level4;
-    private MapProperties properties;
-
-    public MapProperties getProperties(){
-        return properties;
-    }
 
     public Box2DDebugRenderer getBox2DDebugRenderer(){
         return box2DDebugRenderer;
@@ -106,10 +100,9 @@ public class PlayScreen implements Screen {
         map = mapLoader.load(mapName);
         box2DDebugRenderer = new Box2DDebugRenderer();
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Pandoradca.PPM);
-        properties = map.getProperties();
         gameCamera.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
         world = new World(new Vector2(0, -10), true);
-        new B2WorldCreator(world, map);
+        new B2WorldCreator(world, map, level, game);
         player = new Panda(world);
         world.setContactListener(new WorldContactListener());
         hud = new Hud(game.batch);
@@ -120,9 +113,8 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput() {
-        if ((Gdx.input.isKeyJustPressed(Input.Keys.UP)) && (player.b2body.getLinearVelocity().y == 0)) {
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.UP)) && (player.b2body.getLinearVelocity().y == 0))
             player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
-        }
         if((Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2))
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
         if((Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2))
