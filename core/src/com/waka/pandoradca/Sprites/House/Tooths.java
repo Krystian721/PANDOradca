@@ -28,7 +28,7 @@ public class Tooths extends InteractiveTileObject {
             screen.getResults().getHouseAnswers()[screen.getHud().getQuestion()] = "Mycie zębów";
             screen.getHud().setQuestion(screen.getHud().getQuestion() + 1);
             screen.getHud().updateQuestionCounter();
-            //map.getLayers().remove();
         }
+        //map.getLayers().remove();
     }
 }

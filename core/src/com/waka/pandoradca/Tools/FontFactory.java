@@ -33,7 +33,6 @@ public class FontFactory {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.characters = "aąbcćdeęfghijklłmnńoóprsśtuvwqxyzźżAĄBCĆDEĘFGIJKLŁMNŃOÓPRSŚTUVWQXYZŹŻ1234567890.,:;_!?";
         parameter.size = 27;
-        parameter.color = Color.BLACK;
         BitmapFont font = generator.generateFont(parameter);
         font.getData().setScale(0.7f);
         generator.dispose();

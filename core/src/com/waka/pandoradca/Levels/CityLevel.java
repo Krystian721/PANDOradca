@@ -2,6 +2,7 @@ package com.waka.pandoradca.Levels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -157,8 +158,10 @@ public class CityLevel {
                 }
                 spriteBatch.begin();
                 spriteBatch.draw(questionBG, 0, 0, screen.getGamePort().getScreenWidth(), screen.getGamePort().getScreenHeight());
-                if (!hint)
+                if (!hint) {
+                    FontFactory.getInstance().getFont(plLocale).setColor(Color.BLACK);
                     FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 60, 300.f);
+                }
                 spriteBatch.end();
                 answer = handleQuestionInput();
                 if (answer) {
