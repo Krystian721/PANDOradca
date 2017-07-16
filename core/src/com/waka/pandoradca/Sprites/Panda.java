@@ -136,6 +136,8 @@ public class Panda extends Sprite {
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(6 / Pandoradca.PPM);
+        fixtureDef.filter.categoryBits = Pandoradca.PANDA_BIT;
+        fixtureDef.filter.maskBits = Pandoradca.DEFAULT_BIT | Pandoradca.TOOTH_BIT | Pandoradca.WASHING_BIT | Pandoradca.GARBAGE_BIT | Pandoradca.TV_BIT | Pandoradca.PC_BIT | Pandoradca.HOMEWORK_BIT | Pandoradca.READING_BIT | Pandoradca.SWEEPING_BIT;
 
         fixtureDef.shape = circleShape;
         b2body.createFixture(fixtureDef);

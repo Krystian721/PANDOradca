@@ -21,6 +21,7 @@ import com.waka.pandoradca.Pandoradca;
 import com.waka.pandoradca.Scenes.Hud;
 import com.waka.pandoradca.Sprites.Panda;
 import com.waka.pandoradca.Tools.B2WorldCreator;
+import com.waka.pandoradca.Tools.Results;
 import com.waka.pandoradca.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen {
@@ -39,7 +40,11 @@ public class PlayScreen implements Screen {
     private HouseLevel level2;
     private ForestLevel level3;
     private CityLevel level4;
+    private Results results;
 
+    public Results getResults(){
+        return results;
+    }
     public Box2DDebugRenderer getBox2DDebugRenderer(){
         return box2DDebugRenderer;
     }
@@ -73,16 +78,18 @@ public class PlayScreen implements Screen {
     }
 
     //constructor
-    public PlayScreen(final Pandoradca game, int level){
+    public PlayScreen(final Pandoradca game, int level, Results results){
         this.level = level;
         switch (level){
             case 1:
                 level1 = new ForestLevel(this, level);
                 mapName = level1.getLevelName();
+                hud = new Hud(game.batch, 0);
                 break;
             case 2:
                 level2 = new HouseLevel(this);
                 mapName = level2.getLevelName();
+                hud = new Hud(game.batch, 5);
                 break;
             case 3:
                 level3 = new ForestLevel(this, level);
@@ -102,10 +109,10 @@ public class PlayScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Pandoradca.PPM);
         gameCamera.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
         world = new World(new Vector2(0, -10), true);
-        new B2WorldCreator(world, map, level, game);
+        this.results = results;
+        new B2WorldCreator(world, map, level, game, this);
         player = new Panda(world);
         world.setContactListener(new WorldContactListener());
-        hud = new Hud(game.batch);
     }
 
     @Override

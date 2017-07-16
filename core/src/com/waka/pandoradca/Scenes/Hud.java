@@ -19,6 +19,11 @@ public class Hud implements Disposable{
     private Integer questionsPerLevel;
     private Integer worldTimer;
     private float timeCount;
+    private Label questionsLabel;
+
+    public Integer getQuestion(){
+        return question;
+    }
 
     public Stage getStage(){
         return stage;
@@ -32,11 +37,15 @@ public class Hud implements Disposable{
         worldTimer = 0;
     }
 
-    public Hud(SpriteBatch sb){
+    public void setQuestion(Integer question){
+        this.question = question;
+    }
+
+    public Hud(SpriteBatch sb, int questionsPerLevel){
         score = 0;
         question = 0;
         worldTimer = 0;
-        questionsPerLevel = 17;
+        this.questionsPerLevel = questionsPerLevel;
 
         Viewport viewport = new FillViewport(Pandoradca.V_WIDTH, Pandoradca.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
@@ -45,11 +54,13 @@ public class Hud implements Disposable{
         table.top();
         table.setFillParent(true);
 
-        Label scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        Label questionsLabel = new Label(question.toString()+"/"+questionsPerLevel.toString(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        Label scoreLabel = new Label(String.format("%03d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        questionsLabel = new Label(question.toString() + "/" + this.questionsPerLevel.toString(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        table.add(questionsLabel).expandX().padTop(10);
-        table.add(scoreLabel).expandX().padTop(10);
+        if (questionsPerLevel > 0)
+            table.add(questionsLabel).expandX().padTop(10);
+        if (questionsPerLevel == 0)
+            table.add(scoreLabel).expandX().padTop(10);
 
         stage.addActor(table);
     }
@@ -61,6 +72,11 @@ public class Hud implements Disposable{
             timeCount = 0;
         }
     }
+
+    public void updateQuestionCounter(){
+        questionsLabel.setText(question.toString() + "/" + this.questionsPerLevel.toString());
+    }
+
     @Override
     public void dispose() {
         stage.dispose();

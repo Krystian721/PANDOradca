@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.waka.pandoradca.Pandoradca;
+import com.waka.pandoradca.Tools.Results;
 
 import org.w3c.dom.css.Rect;
 
@@ -23,9 +24,11 @@ public class MainMenuScreen implements Screen {
     private Texture bt_exit;
     private Texture bt_score;
     private Rectangle play;
+    private Results results;
 
     public MainMenuScreen(final Pandoradca gam) {
         game = gam;
+        results = new Results();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Pandoradca.V_WIDTH_MENU, Pandoradca.V_HEIGHT_MENU);
 
@@ -59,7 +62,7 @@ public class MainMenuScreen implements Screen {
         if (Gdx.input.getX() > ox && Gdx.input.getX()< ox+125 && Gdx.input.getY()>170 && Gdx.input.getY()<220) {
             System.out.println("Play");
             dispose();
-            game.setScreen(new PlayScreen(game, 1));
+            game.setScreen(new PlayScreen(game, 2, results));
         }
         if (Gdx.input.getX() > ox && Gdx.input.getX()< ox+125 && Gdx.input.getY()>310 && Gdx.input.getY()<360) {
             System.out.println("Exit");

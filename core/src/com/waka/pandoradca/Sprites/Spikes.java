@@ -1,4 +1,4 @@
-package com.waka.pandoradca.Sprites.Forest1;
+package com.waka.pandoradca.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;

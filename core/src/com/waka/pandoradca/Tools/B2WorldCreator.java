@@ -10,13 +10,22 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.waka.pandoradca.Pandoradca;
-import com.waka.pandoradca.Sprites.Forest1.Doors;
+import com.waka.pandoradca.Screens.PlayScreen;
+import com.waka.pandoradca.Sprites.Doors;
 import com.waka.pandoradca.Sprites.Food;
-import com.waka.pandoradca.Sprites.Forest1.Spikes;
+import com.waka.pandoradca.Sprites.House.Garbage;
+import com.waka.pandoradca.Sprites.House.Homework;
+import com.waka.pandoradca.Sprites.House.PC;
+import com.waka.pandoradca.Sprites.House.Reading;
+import com.waka.pandoradca.Sprites.House.Sweeping;
+import com.waka.pandoradca.Sprites.House.TV;
+import com.waka.pandoradca.Sprites.House.Tooths;
+import com.waka.pandoradca.Sprites.House.Washing;
+import com.waka.pandoradca.Sprites.Spikes;
 
 public class B2WorldCreator {
 
-    public B2WorldCreator(World world, TiledMap map, Integer level, Pandoradca game) {
+    public B2WorldCreator(World world, TiledMap map, Integer level, Pandoradca game, PlayScreen screen) {
         BodyDef bodyDef = new BodyDef();
         PolygonShape polygonShape = new PolygonShape();
         FixtureDef fixtureDef = new FixtureDef();
@@ -58,7 +67,7 @@ public class B2WorldCreator {
                 //region Door
                 for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    new Doors(world, map, rectangle, game);
+                    new Doors(world, map, rectangle, game, screen, 1);
                 }
                 //endregion
 
@@ -76,6 +85,68 @@ public class B2WorldCreator {
                 }
                 //endregion
 
+                //region Door
+                for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new Doors(world, map, rectangle, game, screen, 2);
+                }
+                //endregion
+
+                //region Tooths
+                for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new Tooths(world, map, rectangle, game, screen);
+                }
+                //endregion
+
+                //region Washing
+                for (MapObject object : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new Washing(world, map, rectangle, game, screen);
+                }
+                //endregion
+
+                //region Garbage
+                for (MapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new Garbage(world, map, rectangle, game, screen);
+                }
+                //endregion
+
+                //region TV
+                for (MapObject object : map.getLayers().get(11).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new TV(world, map, rectangle, game, screen);
+                }
+                //endregion
+
+                //region PC
+                for (MapObject object : map.getLayers().get(12).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new PC(world, map, rectangle, game, screen);
+                }
+                //endregion
+
+                //region Homework
+                for (MapObject object : map.getLayers().get(13).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new Homework(world, map, rectangle, game, screen);
+                }
+                //endregion
+
+                //region Reading
+                for (MapObject object : map.getLayers().get(14).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new Reading(world, map, rectangle, game, screen);
+                }
+                //endregion
+
+                //region Sweeping
+                for (MapObject object : map.getLayers().get(15).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new Sweeping(world, map, rectangle, game, screen);
+                }
+                //endregion
                 break;
             case 3:
                 //region Ground
