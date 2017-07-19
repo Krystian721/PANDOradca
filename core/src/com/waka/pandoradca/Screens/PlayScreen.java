@@ -42,9 +42,14 @@ public class PlayScreen implements Screen {
     private CityLevel level4;
     private Results results;
 
+    public TiledMap getMap(){
+        return map;
+    }
+
     public Results getResults(){
         return results;
     }
+
     public Box2DDebugRenderer getBox2DDebugRenderer(){
         return box2DDebugRenderer;
     }
@@ -94,10 +99,12 @@ public class PlayScreen implements Screen {
             case 3:
                 level3 = new ForestLevel(this, level);
                 mapName = level3.getLevelName();
+                hud = new Hud(game.batch, 0);
                 break;
             case 4:
                 level4 = new CityLevel(this);
                 mapName = level4.getLevelName();
+                hud = new Hud(game.batch, 5);
                 break;
         }
         this.game = game;

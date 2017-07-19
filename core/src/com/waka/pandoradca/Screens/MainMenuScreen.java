@@ -17,7 +17,6 @@ public class MainMenuScreen implements Screen {
     final Pandoradca game;
 
     OrthographicCamera camera;
-
     private SpriteBatch sb;
     private Texture background;
     private Texture bt_play;
@@ -62,7 +61,7 @@ public class MainMenuScreen implements Screen {
         if (Gdx.input.getX() > ox && Gdx.input.getX()< ox+125 && Gdx.input.getY()>170 && Gdx.input.getY()<220) {
             System.out.println("Play");
             dispose();
-            game.setScreen(new PlayScreen(game, 2, results));
+            game.setScreen(new PlayScreen(game, 3, results));
         }
         if (Gdx.input.getX() > ox && Gdx.input.getX()< ox+125 && Gdx.input.getY()>310 && Gdx.input.getY()<360) {
             System.out.println("Exit");

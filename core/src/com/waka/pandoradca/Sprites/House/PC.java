@@ -21,12 +21,19 @@ public class PC extends InteractiveTileObject {
 
     @Override
     public void onHit() {
+        int count = 0;
+        for (int i=0; i<5; i++) {
+            if (screen.getResults().getHouseAnswers()[i] != null) {
+                count++;
+            }
+        }
         setCategoryFilter(Pandoradca.DESTROYED_BIT);
         if (screen.getHud().getQuestion() < 5) {
             screen.getResults().getHouseAnswers()[screen.getHud().getQuestion()] = "Gra na komputerze";
             screen.getHud().setQuestion(screen.getHud().getQuestion() + 1);
             screen.getHud().updateQuestionCounter();
         }
-        //map.getLayers().remove();
+        if (count < 5)
+            map.getLayers().remove(20 - count);
     }
 }

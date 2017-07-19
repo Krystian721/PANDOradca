@@ -43,8 +43,11 @@ public class HouseLevel {
 
     public void update(float deltaTime){
         if (!showedResult)
-            if (!(screen.getResults().getHouseAnswers()[4] == null))
+            if (!(screen.getResults().getHouseAnswers()[4] == null)) {
                 showResults = true;
+                for (int i=0; i<3; i++)
+                    screen.getMap().getLayers().remove(16);
+            }
         if (!showInstruction){
             showInstruction();
             alreadyShowed = true;
