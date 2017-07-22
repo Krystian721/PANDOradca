@@ -7,6 +7,7 @@ import com.waka.pandoradca.Screens.PlayScreen;
 public class ForestLevel {
     private String levelName;
     private PlayScreen screen;
+    private int level;
 
     public String getLevelName() {
         return levelName;
@@ -14,6 +15,7 @@ public class ForestLevel {
 
     public ForestLevel(PlayScreen screen, int level){
         this.screen = screen;
+        this.level = level;
         if (level == 1)
             levelName = "maps/Forest1/ForestMap1.tmx";
         if (level == 3)
@@ -22,7 +24,10 @@ public class ForestLevel {
 
     public void update(float deltaTime){
         screen.handleInput();
-        screen.boundary(screen.getGameCamera(), screen, 40);
+        if (this.level == 1)
+            screen.boundary(screen.getGameCamera(), screen, 40);
+        else
+            screen.boundary(screen.getGameCamera(), screen, 36);
         screen.getWorld().step(1 / 60f, 6, 2);
         screen.getHud().update(deltaTime);
         screen.getPlayer().update(deltaTime);
