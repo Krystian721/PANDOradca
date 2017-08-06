@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -69,11 +70,11 @@ public class DialogBox{
 
     public void addTextBoxAndConfirmButton(String hint, String buttonText){
         final TextField textField = new TextField(hint, skin);
-        textField.addListener(new FocusListener() {
+        textField.addListener(new ClickListener() {
             @Override
-            public boolean handle(Event event) {
+            public void clicked(InputEvent event, float x, float y) {
                 textField.setText("");
-                return super.handle(event);
+                super.clicked(event, x, y);
             }
         });
         dialog.getContentTable().add(textField).row();

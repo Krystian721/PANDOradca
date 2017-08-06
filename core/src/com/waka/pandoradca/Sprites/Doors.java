@@ -28,11 +28,11 @@ public class Doors extends InteractiveTileObject {
             Results.setLevelNumber(2);
             game.setScreen(new PlayScreen(game));
         }
-        if ((Results.getLevelNumber() == 2)&&(!((Results.getHouseAnswers()[4]) == null))){
+        else if ((Results.getLevelNumber() == 2)&&(!((Results.getHouseAnswers()[4]) == null))){
             Results.setLevelNumber(3);
             game.setScreen(new PlayScreen(game));
         }
-        if (Results.getLevelNumber() == 3){
+        else if (Results.getLevelNumber() == 3){
             Results.setLevelNumber(4);
             game.setScreen(new PlayScreen(game));
         }
