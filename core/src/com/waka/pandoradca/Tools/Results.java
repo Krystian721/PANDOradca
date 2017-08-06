@@ -1,8 +1,8 @@
 package com.waka.pandoradca.Tools;
 
 public class Results {
-    private static Integer forest1Score, forest2Score, levelNumber = 4;
-    private static String [] houseAnswers = new String[5], cityAnswers = new String[5];
+    private static Integer forest1Score, forest2Score, levelNumber = 1;
+    private static String [] houseAnswers = new String[5], cityAnswers = new String[5], cityQuestions = new String[5];
 
     //Get
     public static Integer getForest1Score(){
@@ -17,6 +17,9 @@ public class Results {
     }
     public static String[] getCityAnswers() {
         return cityAnswers;
+    }
+    public static String[] getCityQuestions() {
+        return cityQuestions;
     }
 
     //Set
@@ -33,6 +36,9 @@ public class Results {
     }
     public static void setLevelNumber(Integer levelNumber){
         Results.levelNumber = levelNumber;
+    }
+    public static void setCityQuestions(Integer i, String cityQuestions){
+        Results.cityQuestions[i] = cityQuestions;
     }
 
     //Constructor

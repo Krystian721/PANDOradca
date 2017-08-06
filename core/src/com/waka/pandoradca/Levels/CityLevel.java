@@ -27,7 +27,7 @@ public class CityLevel {
     private boolean pressed, hint = false, answer;
     private Texture questionBG;
     private static final int maxQuestions = 5, NOQUESTION = 0, QUESTION = 1;
-    private int state, showQ = 0, questionNumber = 0, questionTimer;
+    private Integer state, showQ = 0, questionNumber = 0, questionTimer;
     private SpriteBatch spriteBatch;
     private Locale plLocale;
     private PlayScreen screen;
@@ -132,10 +132,12 @@ public class CityLevel {
                 screen.getPlayer().update(deltaTime);
                 screen.getGameCamera().update();
                 screen.getRenderer().setView(screen.getGameCamera());
-                if (((questionTimer = Hud.getTime()) > 1) && questionNumber < maxQuestions)
+                if (((questionTimer = Hud.getTime()) > 5) && questionNumber < maxQuestions)
                     state = QUESTION;
-                else {
-
+                if (questionNumber == maxQuestions){
+                    spriteBatch.begin();
+                    spriteBatch.draw(new Texture("questions/module2/end.png"), 0, 0, 600, 480);
+                    spriteBatch.end();
                 }
                 break;
             case QUESTION:
@@ -144,7 +146,10 @@ public class CityLevel {
                     answer = false;
                     questionBG = new Texture("questions/module2/questionBG.png");
                     spriteBatch = new SpriteBatch();
-                    questionNumber+=2;
+                    questionNumber++;
+                    String randomQuestion = "";
+                    Gdx.app.log("", questionNumber.toString());
+                    Results.setCityQuestions(questionNumber - 1, randomQuestion);
                     text = Resources.Job(questionNumber);
                 }
                 answer = handleQuestionInput();
