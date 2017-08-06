@@ -43,7 +43,6 @@ public class ForestLevel {
     }
 
     public void render(){
-
         screen.getBox2DDebugRenderer().render(screen.getWorld(), screen.getGameCamera().combined);
         screen.getRenderer().render();
         screen.getGame().batch.setProjectionMatrix(Hud.getStage().getCamera().combined);
