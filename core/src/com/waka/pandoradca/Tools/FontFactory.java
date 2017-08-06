@@ -1,14 +1,12 @@
 package com.waka.pandoradca.Tools;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import java.util.Locale;
 
 public class FontFactory {
-
     private static FontFactory instance;
     private BitmapFont plFont;
 

@@ -9,28 +9,32 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.waka.pandoradca.Pandoradca;
 import com.waka.pandoradca.Screens.PlayScreen;
 import com.waka.pandoradca.Tools.FontFactory;
+import com.waka.pandoradca.Tools.Results;
 
 import java.util.Locale;
 
 public class Doors extends InteractiveTileObject {
     private Pandoradca game;
-    private PlayScreen screen;
-    private Integer level;
 
-    public Doors(World world, TiledMap map, Rectangle rectangle, Pandoradca game, PlayScreen screen, Integer level) {
+    public Doors(World world, TiledMap map, Rectangle rectangle, Pandoradca game) {
         super(world, map, rectangle);
         this.game = game;
-        this.screen = screen;
-        this.level = level;
         fixture.setUserData(this);
     }
 
     @Override
     public void onHit() {
-        if (level == 1)
-            game.setScreen(new PlayScreen(game, 2, screen.getResults()));
-        if ((level == 2)&&(!((screen.getResults().getHouseAnswers()[4])==null))){
-                game.setScreen(new PlayScreen(game, 3, screen.getResults()));
+        if (Results.getLevelNumber() == 1) {
+            Results.setLevelNumber(2);
+            game.setScreen(new PlayScreen(game));
+        }
+        if ((Results.getLevelNumber() == 2)&&(!((Results.getHouseAnswers()[4]) == null))){
+            Results.setLevelNumber(3);
+            game.setScreen(new PlayScreen(game));
+        }
+        if (Results.getLevelNumber() == 3){
+            Results.setLevelNumber(4);
+            game.setScreen(new PlayScreen(game));
         }
     }
 }

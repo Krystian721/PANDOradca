@@ -13,7 +13,7 @@ public class WorldContactListener implements ContactListener{
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
 
-        if (fixA.getUserData() == "legs" || fixB.getUserData()=="legs"){
+        if (fixA.getUserData() == "legs" || fixB.getUserData() == "legs"){
             Fixture legs = fixA.getUserData() == "legs" ? fixA : fixB;
             Fixture object = legs == fixA ? fixB : fixA;
             if (object.getUserData() instanceof InteractiveTileObject){
@@ -21,7 +21,7 @@ public class WorldContactListener implements ContactListener{
             }
         }
 
-        if (fixA.getUserData() == "front" || fixB.getUserData()=="front"){
+        if (fixA.getUserData() == "front" || fixB.getUserData() == "front"){
             Fixture front = fixA.getUserData() == "front" ? fixA : fixB;
             Fixture object = front == fixA ? fixB : fixA;
             if (object.getUserData() instanceof InteractiveTileObject){
@@ -29,7 +29,7 @@ public class WorldContactListener implements ContactListener{
             }
         }
 
-        if (fixA.getUserData() == "back" || fixB.getUserData()=="back"){
+        if (fixA.getUserData() == "back" || fixB.getUserData() == "back"){
             Fixture back = fixA.getUserData() == "back" ? fixA : fixB;
             Fixture object = back == fixA ? fixB : fixA;
             if (object.getUserData() instanceof InteractiveTileObject){

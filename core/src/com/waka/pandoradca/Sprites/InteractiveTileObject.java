@@ -16,7 +16,6 @@ import com.waka.pandoradca.Pandoradca;
 public abstract class InteractiveTileObject {
     protected World world;
     protected TiledMap map;
-    protected TiledMapTile tile;
     protected Rectangle rectangle;
     protected Body body;
     protected Fixture fixture;
@@ -41,7 +40,8 @@ public abstract class InteractiveTileObject {
     }
 
     public abstract void onHit();
-    public void setCategoryFilter(short filterBit){
+
+    protected void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
         fixture.setFilterData(filter);

@@ -3,21 +3,12 @@
 
     <item
         is-multidex="false"
-        jar="C:\Users\kryst\Desktop\Studia\WAKA\core\build\libs\core-1.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.0"
-        sha1="b0a148137da0035b9b4e6b003a2db0b642973bbd">
-        <dex dex="C:\Users\kryst\Desktop\Studia\WAKA\android\build\intermediates\pre-dexed\debug\core-1.0_2117e3ed16945dcc7adbdf185d66207519063a37.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="C:\Users\kryst\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-box2d\1.9.6\c249ef4060a4fada952f278455c8f7b9cba3c18a\gdx-box2d-1.9.6.jar"
         jumboMode="false"
         optimize="true"
         revision="26.0.0"
         sha1="c249ef4060a4fada952f278455c8f7b9cba3c18a">
-        <dex dex="C:\Users\kryst\Desktop\Studia\WAKA\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.9.6_d246f049f454c95d02f965b821e369822c9396c8.jar" />
+        <dex dex="C:\Users\kryst\Desktop\Studia\WAKA\android\build\intermediates\pre-dexed\release\gdx-box2d-1.9.6_d246f049f454c95d02f965b821e369822c9396c8.jar" />
     </item>
     <item
         is-multidex="false"
@@ -26,7 +17,25 @@
         optimize="true"
         revision="26.0.0"
         sha1="047d1e9b890e364ec28f128e9bb3b9a12a94c164">
-        <dex dex="C:\Users\kryst\Desktop\Studia\WAKA\android\build\intermediates\pre-dexed\debug\gdx-1.9.6_fd713abbf9e939e5368162bf529f46edc76e5906.jar" />
+        <dex dex="C:\Users\kryst\Desktop\Studia\WAKA\android\build\intermediates\pre-dexed\release\gdx-1.9.6_fd713abbf9e939e5368162bf529f46edc76e5906.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\kryst\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-freetype\1.9.6\69187cc3c8062f191df435b43671b0e5ffcbf353\gdx-freetype-1.9.6.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="69187cc3c8062f191df435b43671b0e5ffcbf353">
+        <dex dex="C:\Users\kryst\Desktop\Studia\WAKA\android\build\intermediates\pre-dexed\release\gdx-freetype-1.9.6_7eebf493d551bf6ad7ef81b540e5d87ea360c887.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\kryst\Desktop\Studia\WAKA\core\build\libs\core-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="24c27c5f7cbbcd74a25e2b03aa1db6d3d7ea8395">
+        <dex dex="C:\Users\kryst\Desktop\Studia\WAKA\android\build\intermediates\pre-dexed\release\core-1.0_2117e3ed16945dcc7adbdf185d66207519063a37.jar" />
     </item>
     <item
         is-multidex="false"
@@ -35,7 +44,7 @@
         optimize="true"
         revision="26.0.0"
         sha1="57c2831c870743712b808384187ea856e541878f">
-        <dex dex="C:\Users\kryst\Desktop\Studia\WAKA\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.9.6_d1b77fc7946edadda30e871e74b54d1113cac0a0.jar" />
+        <dex dex="C:\Users\kryst\Desktop\Studia\WAKA\android\build\intermediates\pre-dexed\release\gdx-backend-android-1.9.6_d1b77fc7946edadda30e871e74b54d1113cac0a0.jar" />
     </item>
 
 </items>

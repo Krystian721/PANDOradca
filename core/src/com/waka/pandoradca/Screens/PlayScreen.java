@@ -25,6 +25,7 @@ import com.waka.pandoradca.Tools.Results;
 import com.waka.pandoradca.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen {
+    private Panda player;
     private Pandoradca game;
     private OrthographicCamera gameCamera;
     private Viewport gamePort;
@@ -33,21 +34,13 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
-    private Panda player;
-    private int level;
     private String mapName;
-    private ForestLevel level1;
+    private ForestLevel level1, level3;
     private HouseLevel level2;
-    private ForestLevel level3;
     private CityLevel level4;
-    private Results results;
 
     public TiledMap getMap(){
         return map;
-    }
-
-    public Results getResults(){
-        return results;
     }
 
     public Box2DDebugRenderer getBox2DDebugRenderer(){
@@ -78,16 +71,11 @@ public class PlayScreen implements Screen {
         return player;
     }
 
-    public Hud getHud(){
-        return hud;
-    }
-
     //constructor
-    public PlayScreen(final Pandoradca game, int level, Results results){
-        this.level = level;
-        switch (level){
+    public PlayScreen(final Pandoradca game){
+        switch (Results.getLevelNumber()){
             case 1:
-                level1 = new ForestLevel(this, level);
+                level1 = new ForestLevel(this);
                 mapName = level1.getLevelName();
                 hud = new Hud(game.batch, 0);
                 break;
@@ -97,7 +85,7 @@ public class PlayScreen implements Screen {
                 hud = new Hud(game.batch, 5);
                 break;
             case 3:
-                level3 = new ForestLevel(this, level);
+                level3 = new ForestLevel(this);
                 mapName = level3.getLevelName();
                 hud = new Hud(game.batch, 0);
                 break;
@@ -116,8 +104,7 @@ public class PlayScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Pandoradca.PPM);
         gameCamera.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
         world = new World(new Vector2(0, -10), true);
-        this.results = results;
-        new B2WorldCreator(world, map, level, game, this);
+        new B2WorldCreator(world, map, game);
         player = new Panda(world);
         world.setContactListener(new WorldContactListener());
     }
@@ -144,7 +131,7 @@ public class PlayScreen implements Screen {
     }
 
     private void update(float delta) {
-        switch (level){
+        switch (Results.getLevelNumber()){
             case 1:
                 level1.update(delta);
                 break;
@@ -162,8 +149,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        update(delta);
-        switch (level){
+        switch (Results.getLevelNumber()){
             case 1:
                 level1.render();
                 break;
@@ -177,6 +163,7 @@ public class PlayScreen implements Screen {
                 level4.render();
                 break;
         }
+        update(delta);
     }
 
     @Override

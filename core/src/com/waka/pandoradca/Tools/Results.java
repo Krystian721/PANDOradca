@@ -1,48 +1,45 @@
 package com.waka.pandoradca.Tools;
 
 public class Results {
-    private Integer forest1Score;
-    private String [] houseAnswers;
-    private Integer forest2Score;
-    private String [] cityAnswers;
+    private static Integer forest1Score, forest2Score, levelNumber = 4;
+    private static String [] houseAnswers = new String[5], cityAnswers = new String[5];
 
-    public Integer getForest1Score(){
+    //Get
+    public static Integer getForest1Score(){
         return forest1Score;
     }
-
-    public String [] getHouseAnswers(){
-        return houseAnswers;
-    }
-
-    public Integer getForest2Score() {
+    public static Integer getForest2Score() {
         return forest2Score;
     }
-
-    public String[] getCityAnswers() {
+    public static Integer getLevelNumber() { return levelNumber; }
+    public static String [] getHouseAnswers(){
+        return houseAnswers;
+    }
+    public static String[] getCityAnswers() {
         return cityAnswers;
     }
 
-    public void setForest2Score(Integer forest2Score) {
-        this.forest2Score = forest2Score;
+    //Set
+    public static void setForest1Score(Integer forest1Score){
+        Results.forest1Score = forest1Score;
     }
-
-    public void setCityAnswers(String[] cityAnswers) {
-        this.cityAnswers = cityAnswers;
+    public static void setForest2Score(Integer forest2Score) {
+        Results.forest2Score = forest2Score;
     }
-
-    public void setForest1Score(Integer forest1Score){
-        this.forest1Score = forest1Score;
+    public static void setCityAnswers(Integer i, String cityAnswers) {Results.cityAnswers[i] = cityAnswers;
     }
-
-    public void setHouseAnswers(String [] houseAnswers){
-        this.houseAnswers = houseAnswers;
+    public static void setHouseAnswers(Integer i, String houseAnswers){
+        Results.houseAnswers[i] = houseAnswers;
+    }
+    public static void setLevelNumber(Integer levelNumber){
+        Results.levelNumber = levelNumber;
     }
 
     //Constructor
     public Results(){
-        forest1Score = 0;
+        forest1Score = 2000;
         houseAnswers = new String[5];
-        forest2Score = 0;
+        forest2Score = 5000;
         cityAnswers = new String[5];
     }
 }

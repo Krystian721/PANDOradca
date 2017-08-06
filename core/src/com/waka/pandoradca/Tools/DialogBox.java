@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -55,7 +58,10 @@ public class DialogBox{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                hint = true;
+                if (!hint)
+                    hint = true;
+                else
+                    hint = false;
             }
         });
         dialog.button(button);
@@ -63,6 +69,13 @@ public class DialogBox{
 
     public void addTextBoxAndConfirmButton(String hint, String buttonText){
         final TextField textField = new TextField(hint, skin);
+        textField.addListener(new FocusListener() {
+            @Override
+            public boolean handle(Event event) {
+                textField.setText("");
+                return super.handle(event);
+            }
+        });
         dialog.getContentTable().add(textField).row();
         TextButton button = new TextButton(buttonText, skin);
         button.addListener(new ChangeListener() {
@@ -79,6 +92,7 @@ public class DialogBox{
         });
         dialog.button(button);
     }
+
     public void dialogShow(){
         dialog.show(stage);
     }

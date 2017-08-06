@@ -11,40 +11,47 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.waka.pandoradca.Pandoradca;
+import com.waka.pandoradca.Tools.Results;
 
 public class Hud implements Disposable{
-    private Stage stage;
+    private static Integer question, worldTimer, questionsPerLevel;
+    private static float timeCount;
+    private static Label questionLabel, scoreLabel;
+    private static Stage stage;
     private Integer score;
-    private Integer question;
-    private Integer questionsPerLevel;
-    private Integer worldTimer;
-    private float timeCount;
-    private Label questionsLabel;
 
-    public Integer getQuestion(){
-        return question;
-    }
-
-    public Stage getStage(){
+    public static Stage getStage(){
         return stage;
     }
 
-    public int getTime(){
+    public static int getTime(){
         return worldTimer;
     }
 
-    public void resetTimer(){
+    public static void resetTimer(){
         worldTimer = 0;
     }
 
-    public void setQuestion(Integer question){
-        this.question = question;
+    public static Integer getQuestion(){
+        return question;
     }
 
+    public static void setQuestion(Integer question){
+        Hud.question = question;
+    }
+
+    //constructor
     public Hud(SpriteBatch sb, int questionsPerLevel){
-        score = 0;
         question = 0;
         worldTimer = 0;
+        switch (Results.getLevelNumber()){
+            case 1:
+                score = Results.getForest1Score();
+                break;
+            case 3:
+                score = Results.getForest2Score();
+                break;
+        }
         this.questionsPerLevel = questionsPerLevel;
 
         Viewport viewport = new FillViewport(Pandoradca.V_WIDTH, Pandoradca.V_HEIGHT, new OrthographicCamera());
@@ -54,27 +61,42 @@ public class Hud implements Disposable{
         table.top();
         table.setFillParent(true);
 
-        Label scoreLabel = new Label(String.format("%03d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        questionsLabel = new Label(question.toString() + "/" + this.questionsPerLevel.toString(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreLabel = new Label(String.format("%03d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        questionLabel = new Label(question.toString() + "/" + this.questionsPerLevel.toString(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         if (questionsPerLevel > 0)
-            table.add(questionsLabel).expandX().padTop(10);
+            table.add(Hud.questionLabel).expandX().padTop(10);
         if (questionsPerLevel == 0)
-            table.add(scoreLabel).expandX().padTop(10);
+            table.add(scoreLabel).expandX().padTop(50);
 
         stage.addActor(table);
     }
 
-    public void update(float dt){
+    public static void updateQuestionCounter(){
+        questionLabel.setText(question.toString() + "/" + questionsPerLevel.toString());
+    }
+
+    public static void updateScore(int value){
+        if (Results.getLevelNumber() == 1) {
+            scoreLabel.setText(Results.getForest1Score().toString());
+        }
+        else {
+            scoreLabel.setText(Results.getForest2Score().toString());
+        }
+    }
+
+    public static void update(float dt){
         timeCount += dt;
         if (timeCount >= 1){
             worldTimer++;
             timeCount = 0;
+            if (Results.getLevelNumber() == 1) {
+                Results.setForest1Score(Results.getForest1Score() - 1);
+            }
+            else if (Results.getLevelNumber() == 3) {
+                Results.setForest1Score(Results.getForest2Score() - 1);
+            }
         }
-    }
-
-    public void updateQuestionCounter(){
-        questionsLabel.setText(question.toString() + "/" + this.questionsPerLevel.toString());
     }
 
     @Override

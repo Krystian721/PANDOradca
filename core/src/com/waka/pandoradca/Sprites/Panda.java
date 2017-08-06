@@ -1,6 +1,5 @@
 package com.waka.pandoradca.Sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,23 +12,18 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.FloatArray;
 import com.waka.pandoradca.Pandoradca;
-import com.waka.pandoradca.Screens.PlayScreen;
+import com.waka.pandoradca.Tools.Results;
 
 public class Panda extends Sprite {
     private enum State { STANDING, RUNNING, JUMPING }
-    private State currentState;
-    private State previousState;
+    private State currentState, previousState;
     private World world;
     public Body b2body;
     private TextureRegion pandaStandRight, pandaStandLeft;
-    private Animation<TextureRegion> pandaRunRight, pandaRunLeft;
-    private Animation<TextureRegion> pandaJumpRight, pandaJumpLeft;
-    private float stateTimer;
+    private Animation<TextureRegion> pandaRunRight, pandaRunLeft, pandaJumpRight, pandaJumpLeft;
+    private float stateTimer, startX = 32, startY = 32, lastX = 0.32f, lastY = 0.32f;
     private boolean runningRight;
-    private float startX = 32, startY = 32;
-    private float lastX = 0.32f, lastY = 0.32f;
 
     public void setLastXY(float lastX, float lastY){
         this.lastX = lastX;
@@ -40,13 +34,9 @@ public class Panda extends Sprite {
         return lastX;
     }
 
-    public float getLastY(){
-        return lastY;
-    }
-
     public Panda(World world) {
         TextureAtlas atlasRight = new TextureAtlas("animations/PandaRight.pack");
-        TextureAtlas atlasLeft = new TextureAtlas("animations/PandaLeft.pack");
+        TextureAtlas atlasLeft = new TextureAtlas("animations/pandaLeft.pack");
         this.world = world;
         currentState = State.STANDING;
         previousState = State.STANDING;
@@ -89,7 +79,7 @@ public class Panda extends Sprite {
         //player falls down
         if (b2body.getPosition().y < 0) {
             definePanda(lastX * Pandoradca.PPM, lastY * Pandoradca.PPM);
-            Gdx.app.log(Float.toString(lastX), Float.toString(lastY));
+            Results.setForest1Score(Results.getForest1Score() - 100);
         }
         else {
             setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
@@ -137,7 +127,6 @@ public class Panda extends Sprite {
             runningRight = true;
         }
 
-
         stateTimer = currentState == previousState ? stateTimer + delta : 0;
         previousState = currentState;
         return region;
@@ -157,7 +146,6 @@ public class Panda extends Sprite {
         bodyDef.position.set(x / Pandoradca.PPM, y / Pandoradca.PPM);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bodyDef);
-        Gdx.app.log(Float.toString(b2body.getPosition().x), Float.toString(b2body.getPosition().y));
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape circleShape = new CircleShape();

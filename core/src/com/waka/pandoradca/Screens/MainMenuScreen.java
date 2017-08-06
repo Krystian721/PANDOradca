@@ -9,32 +9,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.waka.pandoradca.Pandoradca;
 import com.waka.pandoradca.Tools.Results;
 
-import org.w3c.dom.css.Rect;
-
-import java.awt.Rectangle;
-
 public class MainMenuScreen implements Screen {
-    final Pandoradca game;
-
-    OrthographicCamera camera;
+    private final Pandoradca game;
+    private OrthographicCamera camera;
     private SpriteBatch sb;
     private Texture background;
-    private Texture bt_play;
-    private Texture bt_exit;
-    private Texture bt_score;
-    private Rectangle play;
-    private Results results;
 
-    public MainMenuScreen(final Pandoradca gam) {
-        game = gam;
-        results = new Results();
+    public MainMenuScreen(final Pandoradca game) {
+        this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Pandoradca.V_WIDTH_MENU, Pandoradca.V_HEIGHT_MENU);
-
-        background= new Texture("menu_bg.png");
-        bt_play = new Texture("menu_play1.png");
-        bt_exit = new Texture("menu_exit1.png");
-        bt_score = new Texture("menu_score.png");
+        background = new Texture("menu.png");
         sb = new SpriteBatch();
     }
 
@@ -50,28 +35,20 @@ public class MainMenuScreen implements Screen {
         camera.update();
 
         sb.begin();
-        sb.draw(background,0,0,Pandoradca.V_WIDTH_MENU,Pandoradca.V_HEIGHT_MENU);
-        sb.draw(bt_play,(Pandoradca.V_WIDTH_MENU/4)-(bt_play.getWidth()/2),(Pandoradca.V_HEIGHT_MENU/2)+10);
-        sb.draw(bt_score,(Pandoradca.V_WIDTH_MENU/4)-(bt_play.getWidth()/2),(Pandoradca.V_HEIGHT_MENU/2)-60);
-        sb.draw(bt_exit,(Pandoradca.V_WIDTH_MENU/4)-(bt_play.getWidth()/2),(Pandoradca.V_HEIGHT_MENU/2)-130);
+        sb.draw(background, 0, 0, Pandoradca.V_WIDTH_MENU, Pandoradca.V_HEIGHT_MENU);
         sb.end();
 
-        int ox = (Pandoradca.V_WIDTH_MENU/4)-(bt_play.getWidth()/2);
+        double ox = (Gdx.graphics.getWidth() * 21.5) / 100;
+        double oy_start = (Gdx.graphics.getHeight() * 38) / 100;
+        double oy_exit = (Gdx.graphics.getHeight() * 53) / 100;
 
-        if (Gdx.input.getX() > ox && Gdx.input.getX()< ox+125 && Gdx.input.getY()>170 && Gdx.input.getY()<220) {
-            System.out.println("Play");
+        if (Gdx.input.getX() > ox && Gdx.input.getX() < ox + 140 && Gdx.input.getY() > oy_start && Gdx.input.getY() < oy_start + 40) {
             dispose();
-            game.setScreen(new PlayScreen(game, 3, results));
+            game.setScreen(new PlayScreen(this.game));
         }
-        if (Gdx.input.getX() > ox && Gdx.input.getX()< ox+125 && Gdx.input.getY()>310 && Gdx.input.getY()<360) {
-            System.out.println("Exit");
+        if (Gdx.input.getX() > ox && Gdx.input.getX() < ox + 140 && Gdx.input.getY() > oy_exit && Gdx.input.getY() < oy_exit + 40) {
             dispose();
-            //Gdx.app.exit();
-        }
-        if (Gdx.input.getX() > ox && Gdx.input.getX()< ox+125 && Gdx.input.getY()>240 && Gdx.input.getY()<290) {
-            System.out.println("score");
-            dispose();
-            //game.setScreen(new ModuleScreen(game));
+            Gdx.app.exit();
         }
     }
 
@@ -95,3 +72,5 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
     }
 }
+
+

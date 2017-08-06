@@ -25,13 +25,13 @@ import com.waka.pandoradca.Sprites.Spikes;
 
 public class B2WorldCreator {
 
-    public B2WorldCreator(World world, TiledMap map, Integer level, Pandoradca game, PlayScreen screen) {
+    public B2WorldCreator(World world, TiledMap map, Pandoradca game) {
         BodyDef bodyDef = new BodyDef();
         PolygonShape polygonShape = new PolygonShape();
         FixtureDef fixtureDef = new FixtureDef();
         Body body;
 
-        switch (level){
+        switch (Results.getLevelNumber()){
             case 1:
                 //region Ground
                 for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
@@ -44,7 +44,6 @@ public class B2WorldCreator {
                     body.createFixture(fixtureDef);
                 }
                 //endregion
-
                 //region Tree
                 for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
@@ -56,21 +55,18 @@ public class B2WorldCreator {
                     body.createFixture(fixtureDef);
                 }
                 //endregion
-
                 //region Spike
                 for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
                     new Spikes(world, map, rectangle);
                 }
                 //endregion
-
                 //region Door
                 for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    new Doors(world, map, rectangle, game, screen, 1);
+                    new Doors(world, map, rectangle, game);
                 }
                 //endregion
-
                 break;
             case 2:
                 //region Ground
@@ -84,67 +80,58 @@ public class B2WorldCreator {
                     body.createFixture(fixtureDef);
                 }
                 //endregion
-
                 //region Door
                 for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    new Doors(world, map, rectangle, game, screen, 2);
+                    new Doors(world, map, rectangle, game);
                 }
                 //endregion
-
                 //region Tooths
                 for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    new Tooths(world, map, rectangle, game, screen);
+                    new Tooths(world, map, rectangle);
                 }
                 //endregion
-
                 //region Washing
                 for (MapObject object : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    new Washing(world, map, rectangle, game, screen);
+                    new Washing(world, map, rectangle);
                 }
                 //endregion
-
                 //region Garbage
                 for (MapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    new Garbage(world, map, rectangle, game, screen);
+                    new Garbage(world, map, rectangle);
                 }
                 //endregion
-
                 //region TV
                 for (MapObject object : map.getLayers().get(11).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    new TV(world, map, rectangle, game, screen);
+                    new TV(world, map, rectangle);
                 }
                 //endregion
-
                 //region PC
                 for (MapObject object : map.getLayers().get(12).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    new PC(world, map, rectangle, game, screen);
+                    new PC(world, map, rectangle);
                 }
                 //endregion
-
                 //region Homework
                 for (MapObject object : map.getLayers().get(13).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    new Homework(world, map, rectangle, game, screen);
+                    new Homework(world, map, rectangle);
                 }
                 //endregion
-
                 //region Reading
                 for (MapObject object : map.getLayers().get(14).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    new Reading(world, map, rectangle, game, screen);
+                    new Reading(world, map, rectangle);
                 }
                 //endregion
-
                 //region Sweeping
                 for (MapObject object : map.getLayers().get(15).getObjects().getByType(RectangleMapObject.class)){
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    new Sweeping(world, map, rectangle, game, screen);
+                    new Sweeping(world, map, rectangle);
                 }
                 //endregion
                 break;
@@ -160,8 +147,29 @@ public class B2WorldCreator {
                     body.createFixture(fixtureDef);
                 }
                 //endregion
-
-
+                //region Cactus
+                for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    bodyDef.type = BodyDef.BodyType.StaticBody;
+                    bodyDef.position.set((rectangle.getX() + rectangle.getWidth() / 2) / Pandoradca.PPM, (rectangle.getY() + rectangle.getHeight() / 2) / Pandoradca.PPM);
+                    body = world.createBody(bodyDef);
+                    polygonShape.setAsBox(rectangle.getWidth() / 2 / Pandoradca.PPM, rectangle.getHeight() / 2 / Pandoradca.PPM);
+                    fixtureDef.shape = polygonShape;
+                    body.createFixture(fixtureDef);
+                }
+                //endregion
+                //region Spike
+                for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new Spikes(world, map, rectangle);
+                }
+                //endregion
+                //region Door
+                for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new Doors(world, map, rectangle, game);
+                }
+                //endregion
                 break;
             case 4:
                 //region Ground
@@ -175,7 +183,12 @@ public class B2WorldCreator {
                     body.createFixture(fixtureDef);
                 }
                 //endregion
-
+                //region Door
+                for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    new Doors(world, map, rectangle, game);
+                }
+                //endregion
                 break;
         }
         //region Food

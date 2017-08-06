@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="android/build/generated/source/buildConfig/androidTest/debug"/>
+	<classpathentry kind="src" path="android/build/generated/source/buildConfig/debug"/>
+	<classpathentry kind="src" path="android/build/generated/source/buildConfig/release"/>
+	<classpathentry kind="src" path="android/build/generated/source/r/debug"/>
+	<classpathentry kind="src" path="android/build/generated/source/r/release"/>
+	<classpathentry kind="src" path="android/src"/>
+	<classpathentry kind="src" path="core/src"/>
+	<classpathentry kind="src" path="desktop/src"/>
+	<classpathentry kind="lib" path="android/build/intermediates/pre-dexed/release/core-1.0_2117e3ed16945dcc7adbdf185d66207519063a37.jar"/>
+	<classpathentry kind="lib" path="android/build/intermediates/pre-dexed/release/gdx-1.9.6_fd713abbf9e939e5368162bf529f46edc76e5906.jar"/>
+	<classpathentry kind="lib" path="android/build/intermediates/pre-dexed/release/gdx-backend-android-1.9.6_d1b77fc7946edadda30e871e74b54d1113cac0a0.jar"/>
+	<classpathentry kind="lib" path="android/build/intermediates/pre-dexed/release/gdx-box2d-1.9.6_d246f049f454c95d02f965b821e369822c9396c8.jar"/>
+	<classpathentry kind="lib" path="android/build/intermediates/pre-dexed/release/gdx-freetype-1.9.6_7eebf493d551bf6ad7ef81b540e5d87ea360c887.jar"/>
+	<classpathentry kind="lib" path="android/build/intermediates/pre-dexed/release/release_20b393dcca644bf43a2540b5570ce073106f13f6.jar"/>
+	<classpathentry kind="lib" path="android/build/intermediates/transforms/mergeJavaRes/release/jars/2/1f/main.jar"/>
+	<classpathentry kind="lib" path="build/generated/mockable-android-25.jar"/>
+	<classpathentry kind="lib" path="core/build/libs/core-1.0.jar"/>
+	<classpathentry kind="lib" path="desktop/build/libs/desktop-1.0.jar"/>
+	<classpathentry kind="lib" path="gdx-freetype-1.9.6.jar"/>
+	<classpathentry kind="lib" path="gdx-freetype-platform-1.9.6.jar"/>
+	<classpathentry kind="lib" path="gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="output" path="android/build/intermediates/classes/release"/>
+</classpath>
