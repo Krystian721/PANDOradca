@@ -92,9 +92,15 @@ public class Hud implements Disposable{
             timeCount = 0;
             if (Results.getLevelNumber() == 1) {
                 Results.setForest1Score(Results.getForest1Score() - 1);
+                Results.setForestTime(Results.getForestTime() + 1);
+            }
+            else if (Results.getLevelNumber() == 2)
+            {
+                Results.setHouseTime(Results.getForestTime() + 1);
             }
             else if (Results.getLevelNumber() == 3) {
                 Results.setForest2Score(Results.getForest2Score() - 1);
+                Results.setForestTime(Results.getForestTime() + 1);
             }
         }
     }

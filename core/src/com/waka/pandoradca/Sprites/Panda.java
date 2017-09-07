@@ -1,5 +1,6 @@
 package com.waka.pandoradca.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -24,6 +25,7 @@ public class Panda extends Sprite {
     private Animation<TextureRegion> pandaRunRight, pandaRunLeft, pandaJumpRight, pandaJumpLeft;
     private float stateTimer, startX = 32, startY = 32, lastX = 0.32f, lastY = 0.32f;
     private boolean runningRight;
+    private int counter = 0;
 
     public void setLastXY(float lastX, float lastY){
         this.lastX = lastX;
@@ -77,14 +79,31 @@ public class Panda extends Sprite {
 
     public void update(float dt){
         //player falls down
-        if (b2body.getPosition().y < 0) {
+        if (Spikes.hit)
+        {
             definePanda(lastX * Pandoradca.PPM, lastY * Pandoradca.PPM);
-            Results.setForest1Score(Results.getForest1Score() - 100);
+            Spikes.hit = false;
+            counter++;
+            if (counter == 2) {
+                Results.setLifeLost(Results.getLifeLost() + 1);
+                counter = 0;
+            }
+        }
+        else if (b2body.getPosition().y < 0) {
+            definePanda(lastX * Pandoradca.PPM, lastY * Pandoradca.PPM);
+            if (Results.getLevelNumber() == 1) {
+                Results.setForest1Score(Results.getForest1Score() - 100);
+                Results.setLifeLost(Results.getLifeLost() + 1);
+            } else {
+                Results.setForest2Score(Results.getForest2Score() - 100);
+                Results.setLifeLost(Results.getLifeLost() + 1);
+            }
         }
         else {
             setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
         }
         setRegion(getFrame(dt));
+        Gdx.app.log(Results.getLifeLost().toString(), "");
     }
 
     private TextureRegion getFrame(float delta) {
