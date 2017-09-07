@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PANDOradca</string>
+    <string name="instruction">"     Mała Pando! Masz przed sobą pierwsze zadanie.\n" +
+    "\n" +
+    "Trafiasz do domu w którym czekają na ciebie różne \n" +
+    "                        czynności do wykonania. \n" +
+    "Spośród nich możesz wybrać tylko 5 najważniejszych! \n" +
+    "\n" +
+    "Naskocz tylko na te czynności, które wydadzą Ci się \n" +
+    "                                bardzo ważne! \n" +
+    "Uważaj, by nie dotknąć tych na które nie masz dzisiaj \n" +
+    "                                       czasu.. \n" +
+    "\n" +
+    "                                  Powodzenia!\n";</string>
     <style name="GdxTheme" parent="android:Theme">
 		<item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>

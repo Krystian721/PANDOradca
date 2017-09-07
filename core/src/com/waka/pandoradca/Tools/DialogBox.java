@@ -22,8 +22,8 @@ import com.waka.pandoradca.Pandoradca;
 
 public class DialogBox{
     public Stage stage;
-    public String string;
-    public boolean cancelled = false, hint = false, noAnswer = false, checkAnswer;
+    public String string = "", string2;
+    public boolean cancelled = false, hint = false, noAnswer = false, checkAnswer = false, firstBox = false, secondBox = false;
     private Skin skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
     private Dialog dialog;
 
@@ -86,6 +86,44 @@ public class DialogBox{
                     string = textField.getText();
                     checkAnswer = true;
                     dispose();
+                }
+                else
+                    noAnswer = true;
+            }
+        });
+        dialog.button(button);
+    }
+
+    public void add2TextBoxesAndConfirmButton(String hint, String hint2, String buttonText){
+        final TextField textField = new TextField(hint, skin);
+        textField.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                textField.setText(null);
+                firstBox = true;
+                super.clicked(event, x, y);
+            }
+        });
+        final TextField textField2 = new TextField(hint2, skin);
+        textField2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                textField2.setText(null);
+                secondBox = true;
+                super.clicked(event, x, y);
+            }
+        });
+        dialog.getContentTable().add(textField).row();
+        dialog.getContentTable().add(textField2).row();
+        TextButton button = new TextButton(buttonText, skin);
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if ((!textField.getText().isEmpty()) && (!textField2.getText().isEmpty()) && (firstBox) && (secondBox)) {
+                    string = textField.getText();
+                    string2 = textField2.getText();
+                    dispose();
+                    checkAnswer = true;
                 }
                 else
                     noAnswer = true;

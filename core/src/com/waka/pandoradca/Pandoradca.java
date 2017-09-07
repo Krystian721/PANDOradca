@@ -1,6 +1,7 @@
 package com.waka.pandoradca;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.waka.pandoradca.Screens.MainMenuScreen;
 import com.waka.pandoradca.Tools.Results;
@@ -33,6 +34,7 @@ public class Pandoradca extends Game {
 		batch = new SpriteBatch();
 		setScreen(new MainMenuScreen(this));
 		results = new Results();
+		Gdx.graphics.setResizable(false);
 	}
 
 	@Override

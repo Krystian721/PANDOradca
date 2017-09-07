@@ -81,6 +81,8 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        compile "javax.mail:javax.mail-api:1.6.0"
+        compile "com.sun.mail:javax.mail:1.6.0"
     }
 }
 
