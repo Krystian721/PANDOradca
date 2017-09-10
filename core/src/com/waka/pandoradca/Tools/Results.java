@@ -27,12 +27,6 @@ public class Results {
     public static String[] getHouseAnswers(){
         return houseAnswers;
     }
-    public static String[] getCityAnswers() {
-        return cityAnswers;
-    }
-    public static String[] getCityQuestions() {
-        return cityQuestions;
-    }
     public static Integer getHouseTime() { return houseTime; }
     public static Integer getForestTime() { return forestTime; }
     public static Integer getLifeLost() { return lifeLost; }
@@ -44,7 +38,8 @@ public class Results {
     public static void setForest2Score(Integer forest2Score) {
         Results.forest2Score = forest2Score;
     }
-    public static void setCityAnswers(Integer i, String cityAnswers) {Results.cityAnswers[i] = cityAnswers;
+    public static void setCityAnswers(Integer i, String cityAnswers) {
+        Results.cityAnswers[i] = cityAnswers;
     }
     public static void setHouseAnswers(Integer i, String houseAnswers){
         Results.houseAnswers[i] = houseAnswers;
@@ -102,19 +97,19 @@ public class Results {
         String houseQ = "", houseA = "", cityQ = "", cityA = "";
         for (int i = 0; i < houseAnswers.length; i++)
         {
-            houseA += houseAnswers[i] + " ,";
+            houseA += houseAnswers[i] + ", ";
         }
         for (int i = 0; i < houseQuestions.length; i++)
         {
-            houseQ += houseQuestions[i] + " ,";
+            houseQ += houseQuestions[i] + ", ";
         }
         for (int i = 0; i < cityQuestions.length; i++)
         {
-            cityQ += cityQuestions[i] + " ,";
+            cityQ += cityQuestions[i] + ", ";
         }
         for (int i = 0; i < cityAnswers.length; i++)
         {
-            cityA += cityAnswers[i] + " ,";
+            cityA += cityAnswers[i] + ", ";
         }
         try {
             Message message = new MimeMessage(session);
@@ -122,23 +117,22 @@ public class Results {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(teachersEmail));
             message.setSubject("PANDOradca - wyniki");
-            message.setText("Imię i nazwisko dziecka: " + studentName + "\n\n Wyniki: " + "\n\n" +
+            message.setText("Imię i nazwisko dziecka: " + studentName + "\n\nWyniki: " + "\n\n" +
                             "Etap - PANDA W DOMU\n" +
-                            "czas: "+ houseTime + "\n" +
-                            "czynności do wyboru: " + houseQ + "\n" +
-                            "czynności wybrane przez ucznia: " + houseA +
+                            "Czas: "+ houseTime + "\n" +
+                            "Czynności do wyboru: " + houseQ + "\n" +
+                            "Czynności wybrane przez ucznia: " + houseA +
                             "\n\n" +
                             "Etap - PANDA W PRACY\n" +
-                            "zawody do odgadnięcia: " + cityQ + "\n" +
+                            "Zawody do odgadnięcia: " + cityQ + "\n" +
                             "Odpowiedzi: " + cityA +
                             "\n\n"+
                             "Łącznie wszystkie ćwiczenia (walka z przeszkodami w lesie)\n" +
-                            "czas: \n" + forestTime +
+                            "czas: " + forestTime + "\n"+
                             "ilość zużytych szans: " + lifeLost);
 
             Transport.send(message);
 
-        System.out.println("Done");
         } catch (AddressException e) {
             e.printStackTrace();
         } catch (MessagingException e) {

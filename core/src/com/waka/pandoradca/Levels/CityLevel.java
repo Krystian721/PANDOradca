@@ -26,7 +26,7 @@ import java.util.Random;
 public class CityLevel {
     private String levelName, answerText, text;
     private DialogBox answerDialog;
-    private boolean pressed, hint = false, answer;
+    private boolean pressed, hint = false, answer, emailSend = false;
     private Texture questionBG;
     private static final int maxQuestions = 6, NOQUESTION = 0, QUESTION = 1;
     private Integer state, showQ = 0, questionNumber = 0, questionTimer;
@@ -92,6 +92,7 @@ public class CityLevel {
         if (pressed) {
             if (answerDialog.checkAnswer) {
                 if ((!answerDialog.string.isEmpty())) {
+                    answerText = answerDialog.string;
                     Results.setCityAnswers(questionNumber - 1, answerText);
                     pressed = false;
                     return true;
@@ -136,13 +137,16 @@ public class CityLevel {
                 screen.getPlayer().update(deltaTime);
                 screen.getGameCamera().update();
                 screen.getRenderer().setView(screen.getGameCamera());
-                if (((questionTimer = Hud.getTime()) > 1) && questionNumber < maxQuestions)
+                if (((questionTimer = Hud.getTime()) > 3) && questionNumber < maxQuestions)
                     state = QUESTION;
                 if (questionNumber == maxQuestions){
                     spriteBatch.begin();
-                    Results.sendResults();
                     spriteBatch.draw(new Texture("questions/module2/end.png"), 0, 0, 600, 480);
                     spriteBatch.end();
+                    if (!emailSend){
+                        emailSend = true;
+                        Results.sendResults();
+                    }
                 }
                 break;
             case QUESTION:
@@ -155,19 +159,23 @@ public class CityLevel {
 
                     int randomQuestionNumber = 0;
                     Random generator = new Random();
-                    boolean resultNotInTable = false;
-                    while (!resultNotInTable) {
+                    //0 start, 1 gdy jest w tablicy, 2 gdy mozemy uzyc
+                    int result = 0;
+                    while (result != 2) {
+                        result = 0;
                         randomQuestionNumber = generator.nextInt(11) + 1;
                         for (Integer i : randomQuestions) {
                             if (i == randomQuestionNumber) {
-                                resultNotInTable = false;
+                                result = 1;
                             }
                         }
-                        resultNotInTable = true;
-                        randomQuestions[questionNumber - 1] = randomQuestionNumber;
+                        if (result == 0) {
+                            result = 2;
+                            randomQuestions[questionNumber - 1] = randomQuestionNumber;
+                        }
                     }
 
-                    Results.setCityQuestions(questionNumber - 1, Resources.cityQuestions()[randomQuestionNumber]);
+                    Results.setCityQuestions(questionNumber - 1, Resources.cityQuestions()[randomQuestionNumber-1]);
                     text = Resources.Job(randomQuestionNumber);
                 }
                 answer = handleQuestionInput();
