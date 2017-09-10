@@ -17,6 +17,7 @@ public class Tooths extends InteractiveTileObject {
         super(world, map, rectangle);
         setCategoryFilter(Pandoradca.TOOTH_BIT);
         fixture.setUserData(this);
+        Results.setHouseQuestions(5, "Mycie zębów");
     }
 
     @Override

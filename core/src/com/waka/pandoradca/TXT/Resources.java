@@ -16,6 +16,20 @@ public abstract class Resources {
                 "                                  Powodzenia!\n";
     }
 
+    public static String ForestInstruction(){
+        return  "     Mała Pando! \n\n" +
+                "     Wkroczyłeś w tajemniczy świat PAN-DORADCY.\n" +
+                "     Doświadczysz tutaj nowych przygód związanych z \n" +
+                "     zawodami i swoimi mocnymi cechami.\n" +
+                "     Czekają tu na Ciebie rózne zadania do wykonania, \n" +
+                "     musisz się do nich dobrze przygotować.\n" +
+                "     Poćwicz więc skakanie, bieganie i omijanie \n" +
+                "     przeszkód.\n" +
+                "     Jak odnajdziesz tajemniczy domek DUŻEJ PANDY \n" +
+                "     przejdziesz do następnego etapu.\n\n" +
+                "     Powodzenia MAŁA PANDO!!";
+    }
+
     public static String Job(int i) {
         switch (i) {
             case 1:
@@ -73,15 +87,11 @@ public abstract class Resources {
     }
 
     public static String job2() {
-        return "             Mój zawód od \n" +
-                "  dzieciństwa był moją wielką \n" +
-                " pasją, zawsze chciałem pomagać \n" +
+        return  "\n\n    Zawsze chciałem pomagać \n" +
                 "      innym ludziom. W pracy \n" +
                 " codziennie ocieram się o cierpienie \n" +
                 "    i ból, nie zawsze mogę temu \n" +
-                " zaradzić. Często mam nocne dyżury, \n" +
-                "   jak jest jakiś wypadek to jestem \n" +
-                " wzywany. Jednak czerpię ogromną \n" +
+                "zaradzić. Jednak czerpię ogromną \n" +
                 " satysfakcje z tego kim jestem, \n" +
                 "     w końcu to ode mnie zależy \n" +
                 "                 ludzkie życie!\n" +
@@ -89,8 +99,8 @@ public abstract class Resources {
     }
 
     public static String job3() {
-        return "            Mój zawód wymaga\n" +
-                " pasji. W pracy często spędzam \n" +
+        return "";
+                /*"    W pracy często spędzam \n" +
                 "      po 10-12 godzin. Mam dużo\n" +
                 "      stresu, przebywam w \n" +
                 " pomieszczeniach, w których panuje \n" +
@@ -100,15 +110,13 @@ public abstract class Resources {
                 "        wokół mnie jest dużo \n" +
                 "  niebezpiecznych narzędzi. Ale to \n" +
                 "    co zrobię smakuje wszystkim.\n" +
-                "                    Kim jestem?";
-
+                "                    Kim jestem?";*/
     }
 
     public static String job4() {
         return "         Już w dzieciństwie \n" +
                 "    zaczarowały mnie klawiatura \n" +
-                "   i ekran komputera. Zabawki te \n" +
-                " zawsze chciałam mieć obok siebie. \n" +
+                "   i ekran komputera. \n" +
                 " Do pracy potrzebny jest mi jedynie \n" +
                 "komputer, czasem potrzebuję jakichś \n" +
                 "  narzędzi. Często brakuje mi ruchu i \n" +

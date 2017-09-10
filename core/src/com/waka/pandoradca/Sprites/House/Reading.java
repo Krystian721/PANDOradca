@@ -15,6 +15,7 @@ public class Reading extends InteractiveTileObject {
         super(world, map, rectangle);
         fixture.setUserData(this);
         setCategoryFilter(Pandoradca.READING_BIT);
+        Results.setHouseQuestions(3, "Czytanie książek");
     }
 
     @Override

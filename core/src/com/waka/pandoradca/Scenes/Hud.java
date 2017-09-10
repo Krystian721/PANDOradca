@@ -96,7 +96,7 @@ public class Hud implements Disposable{
             }
             else if (Results.getLevelNumber() == 2)
             {
-                Results.setHouseTime(Results.getForestTime() + 1);
+                Results.setHouseTime(Results.getHouseTime() + 1);
             }
             else if (Results.getLevelNumber() == 3) {
                 Results.setForest2Score(Results.getForest2Score() - 1);

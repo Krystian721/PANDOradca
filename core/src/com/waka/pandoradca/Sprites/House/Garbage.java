@@ -15,6 +15,7 @@ public class Garbage extends InteractiveTileObject {
         super(world, map, rectangle);
         fixture.setUserData(this);
         setCategoryFilter(Pandoradca.GARBAGE_BIT);
+        Results.setHouseQuestions(0, "Wyrzucanie śmieci");
     }
 
     @Override

@@ -15,6 +15,7 @@ public class PC extends InteractiveTileObject {
         super(world, map, rectangle);
         fixture.setUserData(this);
         setCategoryFilter(Pandoradca.PC_BIT);
+        Results.setHouseQuestions(2, "Gra na komputerze");
     }
 
     @Override

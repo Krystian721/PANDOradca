@@ -15,6 +15,7 @@ public class Homework extends InteractiveTileObject {
         super(world, map, rectangle);
         fixture.setUserData(this);
         setCategoryFilter(Pandoradca.HOMEWORK_BIT);
+        Results.setHouseQuestions(1, "Odrabianie zadania domowego");
     }
 
     @Override

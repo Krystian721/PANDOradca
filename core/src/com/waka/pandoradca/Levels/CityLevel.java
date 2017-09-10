@@ -1,6 +1,7 @@
 package com.waka.pandoradca.Levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -46,7 +47,7 @@ public class CityLevel {
 
     public boolean handleQuestionInput() {
         if (!pressed) {
-            if (Gdx.input.justTouched()) {
+            if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
                 if (!hint) {
                     answerDialog = new DialogBox("", screen.getGame().batch);
                     answerDialog.addLabel("Jaki to zawód?");
@@ -126,7 +127,7 @@ public class CityLevel {
                 showQ = 0;
                 answerText = null;
                 screen.handleInput();
-                screen.boundary(screen.getGameCamera(), screen, 40);
+                screen.boundary(screen.getGameCamera(), screen, 38);
                 screen.getWorld().step(1 / 60f, 6, 2);
                 Hud.update(deltaTime);
                 screen.getPlayer().update(deltaTime);

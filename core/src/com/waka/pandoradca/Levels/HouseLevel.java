@@ -1,6 +1,7 @@
 package com.waka.pandoradca.Levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,13 +13,6 @@ import com.waka.pandoradca.TXT.Resources;
 import com.waka.pandoradca.Tools.FontFactory;
 import com.waka.pandoradca.Tools.Results;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
 public class HouseLevel {
@@ -72,7 +66,7 @@ public class HouseLevel {
     }
 
     public void render() {
-        if (!showInstruction){
+        if ((!showInstruction)){
 
         }
         else if (showResults){
@@ -108,7 +102,7 @@ public class HouseLevel {
     }
 
     public boolean handleInstructionInput() {
-        if (Gdx.input.justTouched()) {
+        if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
             return true;
         }
         else return false;

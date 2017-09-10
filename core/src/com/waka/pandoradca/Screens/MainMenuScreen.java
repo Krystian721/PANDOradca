@@ -47,7 +47,7 @@ public class MainMenuScreen implements Screen {
         double oy_start = (Gdx.graphics.getHeight() * 38) / 100;
         double oy_exit = (Gdx.graphics.getHeight() * 53) / 100;
 
-        if ((Gdx.input.getX() > ox && Gdx.input.getX() < ox + 140 && Gdx.input.getY() > oy_start && Gdx.input.getY() < oy_start + 40) && (!dialogShowed)) {
+        if ((Gdx.input.getX() > ox && Gdx.input.getX() < ox + 140 && Gdx.input.getY() > oy_start && Gdx.input.getY() < oy_start + 40) && (!dialogShowed) && Gdx.input.justTouched()) {
             if ((!dialogShowed) && (!startGame)) {
                 dialogBox = new DialogBox("Uzupełnij poniższe pola!", sb);
                 dialogBox.addLabel("");
@@ -86,7 +86,7 @@ public class MainMenuScreen implements Screen {
             game.setScreen(new PlayScreen(this.game));
         }
 
-        if ((Gdx.input.getX() > ox && Gdx.input.getX() < ox + 140 && Gdx.input.getY() > oy_exit && Gdx.input.getY() < oy_exit + 40) && (!dialogShowed)) {
+        if ((Gdx.input.getX() > ox && Gdx.input.getX() < ox + 140 && Gdx.input.getY() > oy_exit && Gdx.input.getY() < oy_exit + 40) && (!dialogShowed) && Gdx.input.justTouched()) {
             dispose();
             Gdx.app.exit();
         }

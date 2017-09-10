@@ -15,6 +15,7 @@ public class Washing extends InteractiveTileObject {
         super(world, map, rectangle);
         fixture.setUserData(this);
         setCategoryFilter(Pandoradca.WASHING_BIT);
+        Results.setHouseQuestions(7, "Wkładanie brudnych rzeczy do prania");
     }
 
     @Override

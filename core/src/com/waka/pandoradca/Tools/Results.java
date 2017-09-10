@@ -11,7 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class Results {
-    private static Integer forest1Score, forest2Score, levelNumber = 1;
+    private static Integer forest1Score, forest2Score, levelNumber = 4;
     private static String [] houseAnswers = new String[5], houseQuestions = new String[8], cityAnswers = new String[5], cityQuestions = new String[5];
     public static String teachersEmail = "", studentName = "";
     public static int houseTime = 0, forestTime = 0, lifeLost = 1;
@@ -27,7 +27,6 @@ public class Results {
     public static String[] getHouseAnswers(){
         return houseAnswers;
     }
-    public static String[] getHouseQuestions() { return houseQuestions; }
     public static String[] getCityAnswers() {
         return cityAnswers;
     }
@@ -74,6 +73,7 @@ public class Results {
     public static void setLifeLost(Integer fails){
         Results.lifeLost = fails;
     }
+
     //Constructor
     public Results(){
         forest1Score = 2000;

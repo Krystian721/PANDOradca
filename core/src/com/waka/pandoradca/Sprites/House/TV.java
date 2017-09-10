@@ -15,6 +15,7 @@ public class TV extends InteractiveTileObject {
         super(world, map, rectangle);
         fixture.setUserData(this);
         setCategoryFilter(Pandoradca.TV_BIT);
+        Results.setHouseQuestions(6, "Oglądanie telewizji");
     }
 
     @Override

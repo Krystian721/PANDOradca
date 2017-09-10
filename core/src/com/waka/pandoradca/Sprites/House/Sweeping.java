@@ -15,6 +15,7 @@ public class Sweeping extends InteractiveTileObject {
         super(world, map, rectangle);
         fixture.setUserData(this);
         setCategoryFilter(Pandoradca.SWEEPING_BIT);
+        Results.setHouseQuestions(4, "Zamiatanie");
     }
 
     @Override
