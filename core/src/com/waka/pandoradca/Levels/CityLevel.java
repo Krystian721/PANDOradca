@@ -21,17 +21,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
+import java.util.Random;
 
 public class CityLevel {
     private String levelName, answerText, text;
     private DialogBox answerDialog;
     private boolean pressed, hint = false, answer;
     private Texture questionBG;
-    private static final int maxQuestions = 5, NOQUESTION = 0, QUESTION = 1;
+    private static final int maxQuestions = 6, NOQUESTION = 0, QUESTION = 1;
     private Integer state, showQ = 0, questionNumber = 0, questionTimer;
     private SpriteBatch spriteBatch;
     private Locale plLocale;
     private PlayScreen screen;
+    private Integer[] randomQuestions = new Integer[]{0, 0, 0, 0, 0, 0};
 
     public String getLevelName() {
         return levelName;
@@ -149,11 +151,24 @@ public class CityLevel {
                     answer = false;
                     questionBG = new Texture("questions/module2/questionBG.png");
                     spriteBatch = new SpriteBatch();
-
                     questionNumber++;
-                    String randomQuestion = "";
-                    Results.setCityQuestions(questionNumber - 1, randomQuestion);
-                    text = Resources.Job(questionNumber);//questionNumber);
+
+                    int randomQuestionNumber = 0;
+                    Random generator = new Random();
+                    boolean resultNotInTable = false;
+                    while (!resultNotInTable) {
+                        randomQuestionNumber = generator.nextInt(11) + 1;
+                        for (Integer i : randomQuestions) {
+                            if (i == randomQuestionNumber) {
+                                resultNotInTable = false;
+                            }
+                        }
+                        resultNotInTable = true;
+                        randomQuestions[questionNumber - 1] = randomQuestionNumber;
+                    }
+
+                    Results.setCityQuestions(questionNumber - 1, Resources.cityQuestions()[randomQuestionNumber]);
+                    text = Resources.Job(randomQuestionNumber);
                 }
                 answer = handleQuestionInput();
                 if (!pressed) {

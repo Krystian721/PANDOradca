@@ -109,7 +109,7 @@ public class HouseLevel {
     }
 
     public boolean handleResultsInput(){
-        if (Gdx.input.justTouched()){
+        if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)){
             return false;
         }
         else return true;

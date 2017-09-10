@@ -92,7 +92,7 @@ public class PlayScreen implements Screen {
             case 4:
                 level4 = new CityLevel(this);
                 mapName = level4.getLevelName();
-                hud = new Hud(game.batch, 5);
+                hud = new Hud(game.batch, 6);
                 break;
         }
         this.game = game;

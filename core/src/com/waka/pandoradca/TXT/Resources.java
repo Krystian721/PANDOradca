@@ -144,4 +144,10 @@ public abstract class Resources {
                 "  PAS STARTOWY \n\n\n\n" +
                 "      STER";
     }
+
+    public static String[] cityQuestions()
+    {
+        String[] allQuestions = new String[]{"Nauczyciel", "Lekarz", "Kucharz", "Informatyk", "Architekt", "Kierowca", "Policjant", "Farmaceuta", "Mechanik", "Cukiernik", "Weterynarz", "Pilot"};
+        return allQuestions;
+    }
 }
