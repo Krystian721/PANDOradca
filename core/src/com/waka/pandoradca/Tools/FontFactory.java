@@ -29,7 +29,7 @@ public class FontFactory {
     private BitmapFont generateFont(String fontName) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontName));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.characters = "aąbcćdeęfghijklłmnńoóprsśtuvwqxyzźżAĄBCĆDEĘFGIJKLŁMNŃOÓPRSŚTUVWQXYZŹŻ1234567890-.,:;_!?";
+        parameter.characters = "aąbcćdeęfghijklłmnńoóprsśtuvwqxyzźżAĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUVWQXYZŹŻ1234567890-.,:;_!?";
         parameter.size = 27;
         BitmapFont font = generator.generateFont(parameter);
         font.getData().setScale(0.7f);

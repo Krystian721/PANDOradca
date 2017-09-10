@@ -14,7 +14,7 @@ public class Results {
     private static Integer forest1Score, forest2Score, levelNumber = 4;
     private static String [] houseAnswers = new String[5], houseQuestions = new String[8], cityAnswers = new String[5], cityQuestions = new String[5];
     public static String teachersEmail = "", studentName = "";
-    public static int houseTime = 0, forestTime = 0, lifeLost = 1;
+    public static int houseTime = 0, forestTime = 0, lifeLost = 0;
 
     //Get
     public static Integer getForest1Score(){

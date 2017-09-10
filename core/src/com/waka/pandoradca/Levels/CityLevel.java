@@ -43,6 +43,7 @@ public class CityLevel {
         plLocale = new Locale("pl", "PL");
         levelName = "maps/City/city.tmx";
         FontFactory.getInstance().initialize();
+        Hud.setQuestion(0);
     }
 
     public boolean handleQuestionInput() {
@@ -127,16 +128,17 @@ public class CityLevel {
                 showQ = 0;
                 answerText = null;
                 screen.handleInput();
-                screen.boundary(screen.getGameCamera(), screen, 38);
+                screen.boundary(screen.getGameCamera(), screen, 32);
                 screen.getWorld().step(1 / 60f, 6, 2);
                 Hud.update(deltaTime);
                 screen.getPlayer().update(deltaTime);
                 screen.getGameCamera().update();
                 screen.getRenderer().setView(screen.getGameCamera());
-                if (((questionTimer = Hud.getTime()) > 5) && questionNumber < maxQuestions)
+                if (((questionTimer = Hud.getTime()) > 1) && questionNumber < maxQuestions)
                     state = QUESTION;
                 if (questionNumber == maxQuestions){
                     spriteBatch.begin();
+                    Results.sendResults();
                     spriteBatch.draw(new Texture("questions/module2/end.png"), 0, 0, 600, 480);
                     spriteBatch.end();
                 }
@@ -147,11 +149,11 @@ public class CityLevel {
                     answer = false;
                     questionBG = new Texture("questions/module2/questionBG.png");
                     spriteBatch = new SpriteBatch();
+
                     questionNumber++;
                     String randomQuestion = "";
-                    Gdx.app.log("", questionNumber.toString());
                     Results.setCityQuestions(questionNumber - 1, randomQuestion);
-                    text = Resources.Job(questionNumber);
+                    text = Resources.Job(questionNumber);//questionNumber);
                 }
                 answer = handleQuestionInput();
                 if (!pressed) {
@@ -159,11 +161,13 @@ public class CityLevel {
                     spriteBatch.draw(questionBG, 0, 0, 600, 480);
                     if (!hint) {
                         FontFactory.getInstance().getFont(plLocale).setColor(Color.BLACK);
-                        FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 40, 440.f);
+                        FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 150, 440.f);
                     }
                     spriteBatch.end();
                 }
                 if (answer) {
+                    Hud.setQuestion(Hud.getQuestion() + 1);
+                    Hud.updateQuestionCounter();
                     Hud.resetTimer();
                     questionBG.dispose();
                     state = NOQUESTION;
