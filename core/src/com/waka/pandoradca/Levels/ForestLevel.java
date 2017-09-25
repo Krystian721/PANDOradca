@@ -89,7 +89,7 @@ public class ForestLevel {
         spriteBatch.begin();
         spriteBatch.draw(instructionBG, 0, 0, screen.getGamePort().getScreenWidth(), screen.getGamePort().getScreenHeight());
         FontFactory.getInstance().getFont(plLocale).setColor(Color.BLACK);
-        FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 60, 380.f);
+        FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 100, 380.f);
         spriteBatch.end();
     }
 

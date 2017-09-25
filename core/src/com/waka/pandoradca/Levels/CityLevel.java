@@ -142,6 +142,7 @@ public class CityLevel {
                 case NOQUESTION:
                     showQ = 0;
                     answerText = null;
+                    hint = false;
                     screen.handleInput();
                     screen.boundary(screen.getGameCamera(), screen, 32);
                     screen.getWorld().step(1 / 60f, 6, 2);

@@ -97,7 +97,7 @@ public class HouseLevel {
             spriteBatch.begin();
             spriteBatch.draw(instructionBG, 0, 0, screen.getGamePort().getScreenWidth(), screen.getGamePort().getScreenHeight());
             FontFactory.getInstance().getFont(plLocale).setColor(Color.BLACK);
-            FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 60, 380.f);
+            FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 110, 380.f);
             spriteBatch.end();
     }
 
@@ -131,7 +131,7 @@ public class HouseLevel {
                 else if (text == badAnswers[j])
                     FontFactory.getInstance().getFont(plLocale).setColor(Color.RED);
             }
-            FontFactory.getInstance().getFont(plLocale).draw(spriteBatch2, text, 80, 380.f-i*27);
+            FontFactory.getInstance().getFont(plLocale).draw(spriteBatch2, text, 120, 380.f-i*28);
         }
         spriteBatch2.end();
     }

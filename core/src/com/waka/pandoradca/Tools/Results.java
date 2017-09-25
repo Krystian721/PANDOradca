@@ -11,7 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class Results {
-    private static Integer forest1Score, forest2Score, levelNumber = 4;
+    private static Integer forest1Score, forest2Score, levelNumber = 1;
     private static String [] houseAnswers = new String[5], houseQuestions = new String[8], cityAnswers = new String[6], cityQuestions = new String[6];
     public static String teachersEmail = "", studentName = "";
     public static int houseTime = 0, forestTime = 0, lifeLost = 0;
