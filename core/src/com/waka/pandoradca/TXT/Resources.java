@@ -30,6 +30,13 @@ public abstract class Resources {
                 "     Powodzenia MAŁA PANDO!!";
     }
 
+    public static String CityInstruction(){
+        return  "\n\nDroga Pando, \n\n" +
+                "masz przed sobą kolejne zadanie!\n\n" +
+                "Spróbuj rozpoznać zawod kierujący się za 3 słowami. \n\n" +
+                "W razie czego skorzystaj z podpowiedzi. \n\n" +
+                "Do dzieła!";
+    }
     public static String Job(int i) {
         switch (i) {
             case 1:

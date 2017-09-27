@@ -23,6 +23,8 @@ public class HouseLevel {
     private Texture instructionBG, resultsBG;
     private Locale plLocale;
     private String[] goodAnswers, badAnswers;
+    private float timeCount;
+    private Integer InstructionTime = 0;
 
     public String getLevelName() {
         return levelName;
@@ -47,6 +49,11 @@ public class HouseLevel {
         if (!showInstruction){
             showInstruction();
             alreadyShowed = true;
+            timeCount += deltaTime;
+            if (timeCount >= 1){
+                InstructionTime++;
+                timeCount = 0;
+            }
             showInstruction = handleInstructionInput();
         }
         else if (showResults) {
@@ -91,18 +98,17 @@ public class HouseLevel {
             FontFactory.getInstance().initialize();
             instructionBG = new Texture(Gdx.files.internal("questions/module1/bg.png"));
             spriteBatch = new SpriteBatch();
-
             text = Resources.Instruction();
         }
             spriteBatch.begin();
             spriteBatch.draw(instructionBG, 0, 0, screen.getGamePort().getScreenWidth(), screen.getGamePort().getScreenHeight());
             FontFactory.getInstance().getFont(plLocale).setColor(Color.BLACK);
-            FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 110, 380.f);
+            FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 120, 380.f);
             spriteBatch.end();
     }
 
     public boolean handleInstructionInput() {
-        if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+        if ((Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) && InstructionTime > 3) {
             return true;
         }
         else return false;

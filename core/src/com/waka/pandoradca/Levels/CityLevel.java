@@ -34,6 +34,10 @@ public class CityLevel {
     private Locale plLocale;
     private PlayScreen screen;
     private Integer[] randomQuestions = new Integer[]{0, 0, 0, 0, 0, 0};
+    private boolean showInstruction = false, alreadyShowed = false;
+    private Texture instructionBG;
+    private float timeCount;
+    private Integer InstructionTime = 0;
 
     public String getLevelName() {
         return levelName;
@@ -105,104 +109,140 @@ public class CityLevel {
     }
 
     public void render(){
-        if (!emailSend) {
-            if (state == NOQUESTION) {
-                Gdx.gl.glClearColor(1, 0, 0, 1);
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-                screen.getGame().batch.setProjectionMatrix(Hud.getStage().getCamera().combined);
-                screen.getBox2DDebugRenderer().render(screen.getWorld(), screen.getGameCamera().combined);
-                screen.getRenderer().render();
-                screen.getGame().batch.setProjectionMatrix(screen.getGameCamera().combined);
-                screen.getGame().batch.begin();
-                screen.getPlayer().draw(screen.getGame().batch);
-                screen.getGame().batch.end();
-                Hud.getStage().draw();
-            }
-            if (state == QUESTION) {
-                if (pressed) {
-                    screen.getGame().batch.setProjectionMatrix(answerDialog.stage.getCamera().projection);
-                    answerDialog.stage.draw();
+        if ((!showInstruction)){
+
+        }
+        else {
+            if (!emailSend) {
+                if (state == NOQUESTION) {
+                    Gdx.gl.glClearColor(1, 0, 0, 1);
+                    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                    screen.getGame().batch.setProjectionMatrix(Hud.getStage().getCamera().combined);
+                    screen.getBox2DDebugRenderer().render(screen.getWorld(), screen.getGameCamera().combined);
+                    screen.getRenderer().render();
+                    screen.getGame().batch.setProjectionMatrix(screen.getGameCamera().combined);
+                    screen.getGame().batch.begin();
+                    screen.getPlayer().draw(screen.getGame().batch);
+                    screen.getGame().batch.end();
+                    Hud.getStage().draw();
+                }
+                if (state == QUESTION) {
+                    if (pressed) {
+                        screen.getGame().batch.setProjectionMatrix(answerDialog.stage.getCamera().projection);
+                        answerDialog.stage.draw();
+                    }
                 }
             }
         }
     }
 
-    public void update(float deltaTime){
-        if (questionNumber == maxQuestions){
-            spriteBatch.begin();
-            spriteBatch.draw(endTexture, 0, 0, 600, 480);
-            spriteBatch.end();
-            if (!emailSend) {
-                emailSend = true;
-                Results.sendResults();
+    public void update(float deltaTime) {
+        if (!showInstruction) {
+            showInstruction();
+            alreadyShowed = true;
+            showInstruction = handleInstructionInput();
+            timeCount += deltaTime;
+            if (timeCount >= 1){
+                InstructionTime++;
+                timeCount = 0;
             }
-        }
-        else {
-            switch (state) {
-                case NOQUESTION:
-                    showQ = 0;
-                    answerText = null;
-                    hint = false;
-                    screen.handleInput();
-                    screen.boundary(screen.getGameCamera(), screen, 32);
-                    screen.getWorld().step(1 / 60f, 6, 2);
-                    Hud.update(deltaTime);
-                    screen.getPlayer().update(deltaTime);
-                    screen.getGameCamera().update();
-                    screen.getRenderer().setView(screen.getGameCamera());
-                    if (((questionTimer = Hud.getTime()) > 3) && questionNumber < maxQuestions)
-                        state = QUESTION;
-                    break;
-                case QUESTION:
-                    if (showQ == 0) {
-                        showQ = 1;
-                        answer = false;
-                        questionBG = new Texture("questions/module2/questionBG.png");
-                        spriteBatch = new SpriteBatch();
-                        questionNumber++;
+        } else {
+            if (questionNumber == maxQuestions) {
+                spriteBatch.begin();
+                spriteBatch.draw(endTexture, 0, 0, 600, 480);
+                spriteBatch.end();
+                if (!emailSend) {
+                    emailSend = true;
+                    Results.sendResults();
+                }
+            } else {
+                switch (state) {
+                    case NOQUESTION:
+                        showQ = 0;
+                        answerText = null;
+                        hint = false;
+                        screen.handleInput();
+                        screen.boundary(screen.getGameCamera(), screen, 32);
+                        screen.getWorld().step(1 / 60f, 6, 2);
+                        Hud.update(deltaTime);
+                        screen.getPlayer().update(deltaTime);
+                        screen.getGameCamera().update();
+                        screen.getRenderer().setView(screen.getGameCamera());
+                        if (((questionTimer = Hud.getTime()) > 3) && questionNumber < maxQuestions)
+                            state = QUESTION;
+                        break;
+                    case QUESTION:
+                        if (showQ == 0) {
+                            showQ = 1;
+                            answer = false;
+                            questionBG = new Texture("questions/module2/questionBG.png");
+                            spriteBatch = new SpriteBatch();
+                            questionNumber++;
 
-                        randomQuestionNumber = 0;
-                        Random generator = new Random();
-                        //0 start, 1 gdy jest w tablicy, 2 gdy mozemy uzyc
-                        int result = 0;
-                        while (result != 2) {
-                            result = 0;
-                            randomQuestionNumber = generator.nextInt(11) + 1;
-                            for (Integer i : randomQuestions) {
-                                if (i == randomQuestionNumber) {
-                                    result = 1;
+                            randomQuestionNumber = 0;
+                            Random generator = new Random();
+                            //0 start, 1 gdy jest w tablicy, 2 gdy mozemy uzyc
+                            int result = 0;
+                            while (result != 2) {
+                                result = 0;
+                                randomQuestionNumber = generator.nextInt(11) + 1;
+                                for (Integer i : randomQuestions) {
+                                    if (i == randomQuestionNumber) {
+                                        result = 1;
+                                    }
+                                }
+                                if (result == 0) {
+                                    result = 2;
+                                    randomQuestions[questionNumber - 1] = randomQuestionNumber;
                                 }
                             }
-                            if (result == 0) {
-                                result = 2;
-                                randomQuestions[questionNumber - 1] = randomQuestionNumber;
-                            }
-                        }
 
-                        Results.setCityQuestions(questionNumber - 1, Resources.cityQuestions()[randomQuestionNumber - 1]);
-                        text = Resources.Job(randomQuestionNumber);
-                    }
-                    answer = handleQuestionInput();
-                    if (!pressed) {
-                        spriteBatch.begin();
-                        spriteBatch.draw(questionBG, 0, 0, 600, 480);
-                        if (!hint) {
-                            FontFactory.getInstance().getFont(plLocale).setColor(Color.BLACK);
-                            FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 150, 440.f);
+                            Results.setCityQuestions(questionNumber - 1, Resources.cityQuestions()[randomQuestionNumber - 1]);
+                            text = Resources.Job(randomQuestionNumber);
                         }
-                        spriteBatch.end();
-                    }
-                    if (answer) {
-                        Hud.setQuestion(Hud.getQuestion() + 1);
-                        Hud.updateQuestionCounter();
-                        Hud.resetTimer();
-                        questionBG.dispose();
-                        state = NOQUESTION;
-                    }
-                    break;
-                default:
-                    break;
+                        answer = handleQuestionInput();
+                        if (!pressed) {
+                            spriteBatch.begin();
+                            spriteBatch.draw(questionBG, 0, 0, 600, 480);
+                            if (!hint) {
+                                FontFactory.getInstance().getFont(plLocale).setColor(Color.BLACK);
+                                FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 150, 440.f);
+                            }
+                            spriteBatch.end();
+                        }
+                        if (answer) {
+                            Hud.setQuestion(Hud.getQuestion() + 1);
+                            Hud.updateQuestionCounter();
+                            Hud.resetTimer();
+                            questionBG.dispose();
+                            state = NOQUESTION;
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
+    }
+
+    public void showInstruction() {
+        if (!alreadyShowed) {
+            FontFactory.getInstance().initialize();
+            instructionBG = new Texture(Gdx.files.internal("questions/module1/bg.png"));
+            spriteBatch = new SpriteBatch();
+            text = Resources.CityInstruction();
+        }
+        spriteBatch.begin();
+        spriteBatch.draw(instructionBG, 0, 0, screen.getGamePort().getScreenWidth(), screen.getGamePort().getScreenHeight());
+        FontFactory.getInstance().getFont(plLocale).setColor(Color.BLACK);
+        FontFactory.getInstance().getFont(plLocale).draw(spriteBatch, text, 120, 380.f);
+        spriteBatch.end();
+    }
+
+    public boolean handleInstructionInput() {
+        if ((Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) && InstructionTime > 3) {
+            return true;
+        }
+        else return false;
     }
 }
